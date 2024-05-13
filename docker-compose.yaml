@@ -1,0 +1,20 @@
+version: '3.7'
+
+services:
+  tripmaker:
+    image: rzepiszczak/tripmaker:0.0.1-SNAPSHOT
+    ports:
+      - "8080:8080"
+    networks:
+      - currency-network
+
+  zipkin-server:
+    image: openzipkin/zipkin:2.23
+    ports:
+      - "9411:9411"
+    networks:
+      - currency-network
+    restart: always #Restart if there is a problem starting up
+
+networks:
+  currency-network:
