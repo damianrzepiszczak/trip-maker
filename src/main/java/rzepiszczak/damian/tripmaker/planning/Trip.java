@@ -26,7 +26,6 @@ public class Trip {
     private Stage stage = PLANNING;
     private Plan activePlan;
     private CancelReason cancelReason;
-
     private final List<DomainEvent> events = new ArrayList<>();
 
     Trip(String destination, LocalDateTime from, LocalDateTime to) {
