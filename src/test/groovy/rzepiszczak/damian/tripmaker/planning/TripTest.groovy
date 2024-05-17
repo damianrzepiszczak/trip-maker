@@ -14,8 +14,7 @@ class TripTest extends Specification {
 
     def 'can start max one day before from date'() {
         given:
-            Plan plan = new Plan()
-            trip.assign(plan)
+            trip.assign(new Timeline())
         expect:
             trip.start(from.minusDays(1)).isSuccessful()
         and:
@@ -27,24 +26,23 @@ class TripTest extends Specification {
             trip.start(from.minusDays(2)).isFailure()
     }
 
-    def 'can start if plan assigned'() {
+    def 'can start if timeline assigned'() {
         given:
-            Plan plan = new Plan()
+            Timeline plan = new Timeline()
         and:
             trip.assign(plan)
         expect:
             trip.start(from).isSuccessful()
     }
 
-    def 'cannot start if plan not assigned'() {
+    def 'cannot start if timeline not assigned'() {
         expect:
             trip.start(from).isFailure()
     }
 
     def 'can finish started trip'() {
         given:
-            Plan plan = new Plan()
-            trip.assign(plan)
+            trip.assign(new Timeline())
         and:
             trip.start(from)
         expect:
@@ -58,23 +56,21 @@ class TripTest extends Specification {
 
     def 'should cancel not started trip'() {
         expect:
-            trip.cancel("some reason").isSuccessful()
+            trip.cancel().isSuccessful()
     }
 
     def 'should not cancel started trip'() {
         given:
-            Plan plan = new Plan()
-            trip.assign(plan)
+            trip.assign(new Timeline())
         and:
             trip.start(from)
         expect:
-            trip.cancel("some reason").isFailure()
+            trip.cancel().isFailure()
     }
 
     def 'can share finished trip'() {
         given:
-            Plan plan = new Plan()
-            trip.assign(plan)
+            trip.assign(new Timeline())
         and:
             trip.start(from)
         and:
