@@ -1,11 +1,9 @@
 package rzepiszczak.damian.tripmaker.planning;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import rzepiszczak.damian.tripmaker.common.event.DomainEvent;
+import lombok.*;
 import rzepiszczak.damian.tripmaker.common.Result;
+import rzepiszczak.damian.tripmaker.common.event.DomainEvent;
+import rzepiszczak.damian.tripmaker.traveler.TravelerId;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -18,28 +16,34 @@ import static rzepiszczak.damian.tripmaker.common.Result.failure;
 import static rzepiszczak.damian.tripmaker.common.Result.success;
 import static rzepiszczak.damian.tripmaker.planning.Trip.Stage.*;
 
+@ToString
 @NoArgsConstructor(access = AccessLevel.PACKAGE)
 public class Trip {
 
     enum Stage {PLANNING, STARTED, FINISHED, CANCELLED}
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private TripId tripId;
-    private String destination;
+    @Getter
+    private TravelerId travelerId;
+    private Destination destination;
     private Period period;
     private Stage stage = PLANNING;
     private Timeline timeline;
     private final List<DomainEvent> events = new ArrayList<>();
 
-    Trip(String destination, LocalDateTime from, LocalDateTime to) {
+    Trip(TravelerId travelerId, Destination destination, LocalDateTime from, LocalDateTime to) {
         this.destination = destination;
         this.period = new Period(from, to);
-        events.add(new NewTripCreated("PlanId"));
+        this.travelerId = travelerId;
+        events.add(new TripCreated("TripId"));
     }
 
     Result start(LocalDateTime startedAt) {
         if (canStart(startedAt)) {
             stage = STARTED;
+            events.add(new TripStarted(tripId));
             return success();
         }
         return failure();
@@ -54,6 +58,7 @@ public class Trip {
     Result finish() {
         if (stage == STARTED) {
             stage = FINISHED;
+            events.add(new TripFinished(tripId));
             return success();
         }
         return failure();
@@ -62,6 +67,7 @@ public class Trip {
     Result cancel() {
         if (stage == PLANNING) {
             stage = CANCELLED;
+            events.add(new TripCanceled(tripId));
             return success();
         }
         return failure();
@@ -69,6 +75,7 @@ public class Trip {
 
     Result share() {
         if (stage == FINISHED) {
+            events.add(new TripShared(tripId));
             return success();
         }
         return failure();

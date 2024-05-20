@@ -4,6 +4,6 @@ import lombok.RequiredArgsConstructor;
 import rzepiszczak.damian.tripmaker.common.event.DomainEvent;
 
 @RequiredArgsConstructor
-public class NewTripCreated implements DomainEvent {
-    private final String referencePlanId;
+public class TripCanceled implements DomainEvent {
+    private final TripId tripId;
 }
