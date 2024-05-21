@@ -3,6 +3,7 @@ package rzepiszczak.damian.tripmaker.trip
 import rzepiszczak.damian.tripmaker.common.MockClock
 import rzepiszczak.damian.tripmaker.planning.PlanDetails
 import rzepiszczak.damian.tripmaker.traveler.TravelerId
+import rzepiszczak.damian.tripmaker.trip.events.TimelineCreated
 import rzepiszczak.damian.tripmaker.trip.events.TripCreated
 import rzepiszczak.damian.tripmaker.trip.events.TripFinished
 import rzepiszczak.damian.tripmaker.trip.events.TripShared
@@ -40,7 +41,7 @@ class TripServiceTest extends Specification {
             tripService.assignPlan(trip.tripId, planDetails)
         then:
             trip.start(someDay).isSuccessful()
-            trip.events()*.class == [TripCreated, TripStarted]
+            trip.events()*.class == [TripCreated, TimelineCreated, TripStarted]
     }
 
     def 'can finish trip if it is started'() {
@@ -55,7 +56,7 @@ class TripServiceTest extends Specification {
             trip.start(someDay)
         then:
             trip.finish().isSuccessful()
-            trip.events()*.class == [TripCreated, TripStarted, TripFinished]
+            trip.events()*.class == [TripCreated, TimelineCreated, TripStarted, TripFinished]
     }
 
     def 'can share trip if it is finished'() {
@@ -72,6 +73,6 @@ class TripServiceTest extends Specification {
             trip.finish()
         then:
             trip.share().isSuccessful()
-            trip.events()*.class == [TripCreated, TripStarted, TripFinished, TripShared]
+            trip.events()*.class == [TripCreated, TimelineCreated, TripStarted, TripFinished, TripShared]
     }
 }

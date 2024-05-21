@@ -20,7 +20,7 @@ class TripTest extends Specification {
         expect: 'start trip one day before'
             trip.start(from.minusDays(1)).isSuccessful()
         and: 'trip was created and started'
-            trip.events()*.class == [TripCreated, TripStarted]
+            trip.events()*.class == [TripCreated, TimelineCreated, TripStarted]
     }
 
     def 'cannot start if more than one day before from'() {
@@ -36,7 +36,7 @@ class TripTest extends Specification {
             trip.assign(plan)
         expect:
             trip.start(from).isSuccessful()
-            trip.events()*.class == [TripCreated, TripStarted]
+            trip.events()*.class == [TripCreated, TimelineCreated, TripStarted]
     }
 
     def 'cannot start if timeline not assigned'() {
@@ -52,7 +52,7 @@ class TripTest extends Specification {
             trip.start(from)
         expect:
             trip.finish().isSuccessful()
-            trip.events()*.class == [TripCreated, TripStarted, TripFinished]
+            trip.events()*.class == [TripCreated, TimelineCreated, TripStarted, TripFinished]
     }
 
     def 'cannot finish not started trip'() {
@@ -74,7 +74,7 @@ class TripTest extends Specification {
             trip.start(from)
         expect:
             trip.cancel().isFailure()
-            trip.events()*.class == [TripCreated, TripStarted]
+            trip.events()*.class == [TripCreated, TimelineCreated, TripStarted]
     }
 
     def 'can share finished trip'() {
@@ -86,6 +86,6 @@ class TripTest extends Specification {
             trip.finish()
         expect:
             trip.share().isSuccessful()
-            trip.events()*.class == [TripCreated, TripStarted, TripFinished, TripShared]
+            trip.events()*.class == [TripCreated, TimelineCreated, TripStarted, TripFinished, TripShared]
     }
 }
