@@ -1,8 +1,9 @@
-package rzepiszczak.damian.tripmaker.planning;
+package rzepiszczak.damian.tripmaker.trip;
 
 import lombok.*;
 import rzepiszczak.damian.tripmaker.common.Result;
 import rzepiszczak.damian.tripmaker.common.event.DomainEvent;
+import rzepiszczak.damian.tripmaker.trip.events.*;
 import rzepiszczak.damian.tripmaker.traveler.TravelerId;
 
 import java.time.Duration;
@@ -14,11 +15,11 @@ import java.util.Objects;
 
 import static rzepiszczak.damian.tripmaker.common.Result.failure;
 import static rzepiszczak.damian.tripmaker.common.Result.success;
-import static rzepiszczak.damian.tripmaker.planning.Trip.Stage.*;
+import static rzepiszczak.damian.tripmaker.trip.Trip.Stage.*;
 
 @ToString
 @NoArgsConstructor(access = AccessLevel.PACKAGE)
-public class Trip {
+class Trip {
 
     enum Stage {PLANNING, STARTED, FINISHED, CANCELLED}
 
@@ -33,9 +34,9 @@ public class Trip {
     private Timeline timeline;
     private final List<DomainEvent> events = new ArrayList<>();
 
-    Trip(TravelerId travelerId, Destination destination, LocalDateTime from, LocalDateTime to) {
+    Trip(TravelerId travelerId, Destination destination, Period period) {
         this.destination = destination;
-        this.period = new Period(from, to);
+        this.period = period;
         this.travelerId = travelerId;
         events.add(new TripCreated("TripId"));
     }
@@ -50,8 +51,8 @@ public class Trip {
     }
 
     private boolean canStart(LocalDateTime now) {
-        return (now.isBefore(period.from()) || now.isEqual(period.from()))
-                && Duration.between(now, period.from()).toDays() <= 1
+        return (now.isBefore(period.getFrom()) || now.isEqual(period.getFrom()))
+                && Duration.between(now, period.getFrom()).toDays() <= 1
                 && timeline != null;
     }
 

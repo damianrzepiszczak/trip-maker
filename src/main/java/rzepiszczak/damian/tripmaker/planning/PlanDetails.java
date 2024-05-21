@@ -3,6 +3,6 @@ package rzepiszczak.damian.tripmaker.planning;
 import lombok.Getter;
 
 @Getter
-class PlanDetails {
+public class PlanDetails {
     private PlanId planId;
 }

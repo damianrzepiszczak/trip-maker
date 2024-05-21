@@ -1,6 +1,7 @@
-package rzepiszczak.damian.tripmaker.planning
+package rzepiszczak.damian.tripmaker.trip
 
 import rzepiszczak.damian.tripmaker.traveler.TravelerId
+import rzepiszczak.damian.tripmaker.trip.events.*
 import spock.lang.Specification
 import spock.lang.Subject
 
@@ -14,11 +15,11 @@ class TripTest extends Specification {
     private Trip trip = TripFactory.create(new TravelerId(), "Madeira", from, from.plusDays(2))
 
     def 'can start max one day before from date'() {
-        given:
+        given: 'new timeline created'
             trip.assign(new Timeline())
-        expect:
+        expect: 'start trip one day before'
             trip.start(from.minusDays(1)).isSuccessful()
-        and:
+        and: 'trip was created and started'
             trip.events()*.class == [TripCreated, TripStarted]
     }
 

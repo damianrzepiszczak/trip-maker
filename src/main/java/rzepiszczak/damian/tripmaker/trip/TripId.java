@@ -1,4 +1,4 @@
-package rzepiszczak.damian.tripmaker.planning;
+package rzepiszczak.damian.tripmaker.trip;
 
 import lombok.Getter;
 import lombok.ToString;
