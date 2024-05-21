@@ -1,10 +1,10 @@
-package rzepiszczak.damian.tripmaker.trip.events;
+package rzepiszczak.damian.tripmaker.trip.model.events;
 
 import lombok.RequiredArgsConstructor;
 import rzepiszczak.damian.tripmaker.common.event.DomainEvent;
-import rzepiszczak.damian.tripmaker.trip.TripId;
+import rzepiszczak.damian.tripmaker.trip.model.TripId;
 
 @RequiredArgsConstructor
-public class TimelineCreated implements DomainEvent {
+public class TripStarted implements DomainEvent {
     private final TripId tripId;
 }

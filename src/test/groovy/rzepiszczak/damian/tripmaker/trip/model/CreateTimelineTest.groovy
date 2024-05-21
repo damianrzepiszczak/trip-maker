@@ -1,11 +1,12 @@
-package rzepiszczak.damian.tripmaker.trip
+package rzepiszczak.damian.tripmaker.trip.model
 
 import rzepiszczak.damian.tripmaker.common.MockClock
 import rzepiszczak.damian.tripmaker.traveler.TravelerId
 import rzepiszczak.damian.tripmaker.trip.application.AssignPlanCommand
-import rzepiszczak.damian.tripmaker.trip.events.TimelineCreated
-import rzepiszczak.damian.tripmaker.trip.events.TripCreated
-import rzepiszczak.damian.tripmaker.trip.events.TripStarted
+import rzepiszczak.damian.tripmaker.trip.model.events.TimelineCreated
+import rzepiszczak.damian.tripmaker.trip.model.events.TripCreated
+import rzepiszczak.damian.tripmaker.trip.model.events.TripStarted
+import rzepiszczak.damian.tripmaker.trip.infrastructure.TripConfiguration
 import spock.lang.Specification
 
 import java.time.LocalDateTime
@@ -13,7 +14,8 @@ import java.time.LocalDateTime
 class CreateTimelineTest extends Specification {
 
     private LocalDateTime someDay = LocalDateTime.of(2024, 5, 15, 0, 0)
-    private Trips trips = new InMemoryTripRepository()
+    private TripConfiguration configuration = new TripConfiguration()
+    private Trips trips = configuration.tripRepository()
     private TripService tripService = new TripService(trips, new MockClock(someDay))
 
     def 'create new timeline based on plan details'() {
@@ -24,7 +26,7 @@ class CreateTimelineTest extends Specification {
         and:
             tripService.create(travelerId, "Dubai", someDay, someDay.plusDays(1))
         when: 'assign plan'
-            Trip trip = trips.findByTraveler(travelerId).get()
+        Trip trip = trips.findByTraveler(travelerId).get()
             tripService.assignPlan(trip.tripId, assignPlanCommand)
         then: 'timeline was created and trip can be started'
             trip.start(someDay).isSuccessful()

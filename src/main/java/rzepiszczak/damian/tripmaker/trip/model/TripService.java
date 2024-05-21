@@ -1,4 +1,4 @@
-package rzepiszczak.damian.tripmaker.trip;
+package rzepiszczak.damian.tripmaker.trip.model;
 
 import lombok.RequiredArgsConstructor;
 import rzepiszczak.damian.tripmaker.common.Clock;
@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 @RequiredArgsConstructor
-class TripService {
+public class TripService {
 
     private final Trips trips;
     private final Clock clock;

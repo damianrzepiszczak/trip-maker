@@ -1,6 +1,9 @@
-package rzepiszczak.damian.tripmaker.trip;
+package rzepiszczak.damian.tripmaker.trip.infrastructure;
 
 import rzepiszczak.damian.tripmaker.traveler.TravelerId;
+import rzepiszczak.damian.tripmaker.trip.model.Trip;
+import rzepiszczak.damian.tripmaker.trip.model.TripId;
+import rzepiszczak.damian.tripmaker.trip.model.Trips;
 
 import java.util.ArrayList;
 import java.util.List;

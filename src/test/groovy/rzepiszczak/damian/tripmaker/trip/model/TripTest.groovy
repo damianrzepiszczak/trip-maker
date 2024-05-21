@@ -1,8 +1,13 @@
-package rzepiszczak.damian.tripmaker.trip
+package rzepiszczak.damian.tripmaker.trip.model
 
 import rzepiszczak.damian.tripmaker.planning.PlanId
 import rzepiszczak.damian.tripmaker.traveler.TravelerId
-import rzepiszczak.damian.tripmaker.trip.events.*
+import rzepiszczak.damian.tripmaker.trip.model.events.TimelineCreated
+import rzepiszczak.damian.tripmaker.trip.model.events.TripCanceled
+import rzepiszczak.damian.tripmaker.trip.model.events.TripCreated
+import rzepiszczak.damian.tripmaker.trip.model.events.TripFinished
+import rzepiszczak.damian.tripmaker.trip.model.events.TripShared
+import rzepiszczak.damian.tripmaker.trip.model.events.TripStarted
 import spock.lang.Specification
 import spock.lang.Subject
 

@@ -1,9 +1,14 @@
-package rzepiszczak.damian.tripmaker.trip
+package rzepiszczak.damian.tripmaker.trip.model
 
 import rzepiszczak.damian.tripmaker.common.MockClock
 import rzepiszczak.damian.tripmaker.traveler.TravelerId
 import rzepiszczak.damian.tripmaker.trip.application.AssignPlanCommand
-import rzepiszczak.damian.tripmaker.trip.events.*
+import rzepiszczak.damian.tripmaker.trip.infrastructure.TripConfiguration
+import rzepiszczak.damian.tripmaker.trip.model.events.TimelineCreated
+import rzepiszczak.damian.tripmaker.trip.model.events.TripCreated
+import rzepiszczak.damian.tripmaker.trip.model.events.TripFinished
+import rzepiszczak.damian.tripmaker.trip.model.events.TripShared
+import rzepiszczak.damian.tripmaker.trip.model.events.TripStarted
 import spock.lang.Specification
 
 import java.time.LocalDateTime
@@ -11,7 +16,8 @@ import java.time.LocalDateTime
 class TripServiceTest extends Specification {
 
     private LocalDateTime someDay = LocalDateTime.of(2024, 5, 15, 0, 0)
-    private Trips trips = new InMemoryTripRepository()
+    private TripConfiguration configuration = new TripConfiguration()
+    private Trips trips = configuration.tripRepository()
     private TripService tripService = new TripService(trips, new MockClock(someDay))
 
     def 'should create trip after choosing destination and period'() {
