@@ -2,7 +2,7 @@ package rzepiszczak.damian.tripmaker.trip
 
 import rzepiszczak.damian.tripmaker.common.MockClock
 import rzepiszczak.damian.tripmaker.traveler.TravelerId
-import rzepiszczak.damian.tripmaker.trip.dto.CreateTimelineRequest
+import rzepiszczak.damian.tripmaker.trip.application.AssignPlanCommand
 import rzepiszczak.damian.tripmaker.trip.events.*
 import spock.lang.Specification
 
@@ -28,13 +28,13 @@ class TripServiceTest extends Specification {
     def 'can start trip after plan assignment'() {
         given: 'traveler wants to create trip based on plan'
             TravelerId travelerId = new TravelerId()
-            CreateTimelineRequest request = new CreateTimelineRequest()
+            AssignPlanCommand assignPlanCommand = new AssignPlanCommand()
         and:
             tripService.create(travelerId, "Madrid", someDay, someDay.plusDays(5))
         and:
             Trip trip = trips.findByTraveler(travelerId).get()
         when: 'create new timeline based on plan'
-            tripService.assignPlan(trip.tripId, request)
+            tripService.assignPlan(trip.tripId, assignPlanCommand)
         then: 'trip can be started'
             trip.start(someDay).isSuccessful()
             trip.events()*.class == [TripCreated, TimelineCreated, TripStarted]
@@ -47,7 +47,7 @@ class TripServiceTest extends Specification {
             tripService.create(travelerId, "London", someDay, someDay.plusDays(2))
         and:
             Trip trip = trips.findByTraveler(travelerId).get()
-            tripService.assignPlan(trip.tripId, new CreateTimelineRequest())
+            tripService.assignPlan(trip.tripId, new AssignPlanCommand())
         when:
             trip.start(someDay)
         then: 'traveler can finish trip because is started'
@@ -62,7 +62,7 @@ class TripServiceTest extends Specification {
             tripService.create(travelerId, "London", someDay, someDay.plusDays(2))
         and:
             Trip trip = trips.findByTraveler(travelerId).get()
-            tripService.assignPlan(trip.tripId, new CreateTimelineRequest())
+            tripService.assignPlan(trip.tripId, new AssignPlanCommand())
         and:
             tripService.start(trip.tripId)
         when: 'traveler finishes trip'

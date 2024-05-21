@@ -1,4 +1,4 @@
-package rzepiszczak.damian.tripmaker.trip.dto;
+package rzepiszczak.damian.tripmaker.trip.application;
 
 import lombok.Getter;
 import rzepiszczak.damian.tripmaker.planning.PlanId;
@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 @Getter
-public class CreateTimelineRequest {
+public class AssignPlanCommand {
     private PlanId planId;
     private final Map<LocalDateTime, DayInformation> details = new HashMap<>();
 
