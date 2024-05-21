@@ -2,8 +2,8 @@ package rzepiszczak.damian.tripmaker.trip;
 
 import lombok.RequiredArgsConstructor;
 import rzepiszczak.damian.tripmaker.common.Clock;
-import rzepiszczak.damian.tripmaker.planning.PlanDetails;
 import rzepiszczak.damian.tripmaker.traveler.TravelerId;
+import rzepiszczak.damian.tripmaker.trip.dto.CreateTimelineRequest;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -19,9 +19,9 @@ class TripService {
         trips.save(trip);
     }
 
-    void assignPlan(TripId tripId, PlanDetails planDetails) {
+    void assignPlan(TripId tripId, CreateTimelineRequest request) {
         Optional<Trip> found = trips.findById(tripId);
-        found.ifPresent(trip -> trip.assign(createTimeline(planDetails)));
+        found.ifPresent(trip -> trip.assign(createTimeline(request)));
     }
 
     void start(TripId tripId) {
@@ -29,9 +29,9 @@ class TripService {
         found.ifPresent(trip -> trip.start(clock.now()));
     }
 
-    private Timeline createTimeline(PlanDetails planDetails) {
-        Timeline timeline = new Timeline(planDetails.getPlanId());
-        planDetails.getDetails().forEach((day, information) -> timeline.assignDayActivity(new DayActivity(day, information.note(), information.attractions())));
+    private Timeline createTimeline(CreateTimelineRequest request) {
+        Timeline timeline = new Timeline(request.getPlanId());
+        request.getDetails().forEach((day, information) -> timeline.assignDayActivity(new DayActivity(day, information.note(), information.attractions())));
         return timeline;
     }
 }

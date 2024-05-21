@@ -1,5 +1,6 @@
 package rzepiszczak.damian.tripmaker.trip
 
+import rzepiszczak.damian.tripmaker.planning.PlanId
 import rzepiszczak.damian.tripmaker.traveler.TravelerId
 import rzepiszczak.damian.tripmaker.trip.events.*
 import spock.lang.Specification
@@ -16,7 +17,7 @@ class TripTest extends Specification {
 
     def 'can start max one day before from date'() {
         given: 'new timeline created'
-            trip.assign(new Timeline())
+            trip.assign(new Timeline(new PlanId()))
         expect: 'start trip one day before'
             trip.start(from.minusDays(1)).isSuccessful()
         and: 'trip was created and started'
@@ -31,7 +32,7 @@ class TripTest extends Specification {
 
     def 'can start if timeline assigned'() {
         given:
-            Timeline plan = new Timeline()
+            Timeline plan = new Timeline(new PlanId())
         and:
             trip.assign(plan)
         expect:
@@ -47,7 +48,7 @@ class TripTest extends Specification {
 
     def 'can finish started trip'() {
         given:
-            trip.assign(new Timeline())
+            trip.assign(new Timeline(new PlanId()))
         and:
             trip.start(from)
         expect:
@@ -69,7 +70,7 @@ class TripTest extends Specification {
 
     def 'should not cancel started trip'() {
         given:
-            trip.assign(new Timeline())
+            trip.assign(new Timeline(new PlanId()))
         and:
             trip.start(from)
         expect:
@@ -79,7 +80,7 @@ class TripTest extends Specification {
 
     def 'can share finished trip'() {
         given:
-            trip.assign(new Timeline())
+            trip.assign(new Timeline(new PlanId()))
         and:
             trip.start(from)
         and:
