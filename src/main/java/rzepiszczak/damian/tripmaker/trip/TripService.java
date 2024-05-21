@@ -21,11 +21,17 @@ class TripService {
 
     void assignPlan(TripId tripId, PlanDetails planDetails) {
         Optional<Trip> found = trips.findById(tripId);
-        found.ifPresent(trip -> trip.assign(new Timeline()));
+        found.ifPresent(trip -> trip.assign(createTimeline(planDetails)));
     }
 
     void start(TripId tripId) {
         Optional<Trip> found = trips.findById(tripId);
         found.ifPresent(trip -> trip.start(clock.now()));
+    }
+
+    private Timeline createTimeline(PlanDetails planDetails) {
+        Timeline timeline = new Timeline(planDetails.getPlanId());
+        planDetails.getDetails().forEach((day, information) -> timeline.assignDayActivity(new DayActivity(day, information.note(), information.attractions())));
+        return timeline;
     }
 }

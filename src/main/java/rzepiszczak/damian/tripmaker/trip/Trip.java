@@ -84,6 +84,7 @@ class Trip {
 
     void assign(Timeline timeline) {
         this.timeline = timeline;
+        events.add(new TimelineCreated(tripId));
     }
 
     public List<DomainEvent> events() {
