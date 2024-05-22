@@ -13,9 +13,10 @@ public class TripService {
 
     private final Trips trips;
     private final Clock clock;
+    private final TripFactory tripFactory;
 
     void create(TravelerId travelerId, String destination, LocalDateTime from, LocalDateTime to) {
-        Trip trip = TripFactory.create(travelerId, destination, from, to);
+        Trip trip = tripFactory.create(travelerId, destination, from, to);
         trips.save(trip);
     }
 

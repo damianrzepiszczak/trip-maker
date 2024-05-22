@@ -1,7 +1,9 @@
 package rzepiszczak.damian.tripmaker.trip.model;
 
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 
+@Getter
 @AllArgsConstructor
 class Destination {
     private String destination;

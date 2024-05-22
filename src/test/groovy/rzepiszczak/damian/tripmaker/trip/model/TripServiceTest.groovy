@@ -18,7 +18,7 @@ class TripServiceTest extends Specification {
     private LocalDateTime someDay = LocalDateTime.of(2024, 5, 15, 0, 0)
     private TripConfiguration configuration = new TripConfiguration()
     private Trips trips = configuration.tripRepository()
-    private TripService tripService = new TripService(trips, new MockClock(someDay))
+    private TripService tripService = new TripService(trips, new MockClock(someDay), new TripFactory(trips))
 
     def 'should create trip after choosing destination and period'() {
         given: 'traveler wants to organize new trip'
@@ -26,9 +26,29 @@ class TripServiceTest extends Specification {
         when: 'for given destination and period create trip'
             tripService.create(travelerId, "Los Angeles", someDay, someDay.plusDays(5))
         then: 'trip was created'
-            Optional<Trip> trip = trips.findByTraveler(travelerId)
-            trip.isPresent()
-            trip.get().events()*.class == [TripCreated]
+            List<Trip> travelerTrips = trips.findTravelerTrips(travelerId)
+            travelerTrips.size() == 1
+            travelerTrips[0].events()*.class == [TripCreated]
+    }
+
+    def 'cannot create trip with the same destination'() {
+        given: 'traveler creates trip to Dubai'
+            TravelerId travelerId = new TravelerId()
+            tripService.create(travelerId, "Dubai", someDay, someDay.plusDays(10))
+        when: 'traveler creates second trip to Dubai'
+            tripService.create(travelerId, "Dubai", someDay, someDay.plusDays(7))
+        then: 'cannot create with the same destination'
+            thrown IllegalStateException
+    }
+
+    def 'can create two trips with different destination'() {
+        given: 'traveler creates trip to Dubai'
+        TravelerId travelerId = new TravelerId()
+        tripService.create(travelerId, "Dubai", someDay, someDay.plusDays(10))
+        when: 'traveler creates second trip to Madeira'
+        tripService.create(travelerId, "Madeira", someDay, someDay.plusDays(7))
+        then: 'can create with the same destination'
+        trips.findTravelerTrips(travelerId).size() == 2
     }
 
     def 'can start trip after plan assignment'() {
@@ -38,12 +58,12 @@ class TripServiceTest extends Specification {
         and:
             tripService.create(travelerId, "Madrid", someDay, someDay.plusDays(5))
         and:
-            Trip trip = trips.findByTraveler(travelerId).get()
+            Trip madridTrip = trips.findTravelerTrips(travelerId)[0]
         when: 'create new timeline based on plan'
-            tripService.assignPlan(trip.tripId, assignPlanCommand)
+            tripService.assignPlan(madridTrip.tripId, assignPlanCommand)
         then: 'trip can be started'
-            trip.start(someDay).isSuccessful()
-            trip.events()*.class == [TripCreated, TimelineCreated, TripStarted]
+            madridTrip.start(someDay).isSuccessful()
+            madridTrip.events()*.class == [TripCreated, TimelineCreated, TripStarted]
     }
 
     def 'can finish trip if it is started'() {
@@ -52,7 +72,7 @@ class TripServiceTest extends Specification {
         and:
             tripService.create(travelerId, "London", someDay, someDay.plusDays(2))
         and:
-            Trip trip = trips.findByTraveler(travelerId).get()
+            Trip trip = trips.findTravelerTrips(travelerId)[0]
             tripService.assignPlan(trip.tripId, new AssignPlanCommand())
         when:
             trip.start(someDay)
@@ -67,7 +87,7 @@ class TripServiceTest extends Specification {
         and:
             tripService.create(travelerId, "London", someDay, someDay.plusDays(2))
         and:
-            Trip trip = trips.findByTraveler(travelerId).get()
+            Trip trip = trips.findTravelerTrips(travelerId)[0]
             tripService.assignPlan(trip.tripId, new AssignPlanCommand())
         and:
             tripService.start(trip.tripId)

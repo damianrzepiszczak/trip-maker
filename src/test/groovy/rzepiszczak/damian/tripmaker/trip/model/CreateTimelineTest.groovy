@@ -16,7 +16,7 @@ class CreateTimelineTest extends Specification {
     private LocalDateTime someDay = LocalDateTime.of(2024, 5, 15, 0, 0)
     private TripConfiguration configuration = new TripConfiguration()
     private Trips trips = configuration.tripRepository()
-    private TripService tripService = new TripService(trips, new MockClock(someDay))
+    private TripService tripService = new TripService(trips, new MockClock(someDay), new TripFactory(trips))
 
     def 'create new timeline based on plan details'() {
         given: 'traveler want to organize Dubai trip based on sample plan details'
@@ -26,7 +26,7 @@ class CreateTimelineTest extends Specification {
         and:
             tripService.create(travelerId, "Dubai", someDay, someDay.plusDays(1))
         when: 'assign plan'
-        Trip trip = trips.findByTraveler(travelerId).get()
+            Trip trip = trips.findTravelerTrips(travelerId)[0]
             tripService.assignPlan(trip.tripId, assignPlanCommand)
         then: 'timeline was created and trip can be started'
             trip.start(someDay).isSuccessful()

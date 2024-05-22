@@ -19,10 +19,11 @@ class InMemoryTripRepository implements Trips {
                 .findFirst();
     }
 
-    public Optional<Trip> findByTraveler(TravelerId travelerId) {
+    @Override
+    public List<Trip> findTravelerTrips(TravelerId travelerId) {
         return trips.stream()
-                .filter(trip -> trip.getTravelerId().equals(travelerId))
-                .findFirst();
+                .filter(trip -> trip.getTravelerId().getId().equals(travelerId.getId()))
+                .toList();
     }
 
     public void save(Trip trip) {

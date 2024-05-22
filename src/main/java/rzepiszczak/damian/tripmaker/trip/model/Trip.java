@@ -28,6 +28,7 @@ public class Trip {
     private TripId tripId;
     @Getter
     private TravelerId travelerId;
+    @Getter
     private Destination destination;
     private Period period;
     private Stage stage = PLANNING;

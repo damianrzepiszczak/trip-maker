@@ -18,7 +18,7 @@ class TripTest extends Specification {
 
     private LocalDateTime from = LocalDateTime.of(2024, Month.MAY, 3, 0, 0)
     @Subject
-    private Trip trip = TripFactory.create(new TravelerId(), "Madeira", from, from.plusDays(2))
+    private Trip trip = new Trip(new TravelerId(), Destination.of("Madeira"), Period.from(from, from.plusDays(2)))
 
     def 'can start max one day before from date'() {
         given: 'new timeline created'
