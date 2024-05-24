@@ -6,6 +6,7 @@ import rzepiszczak.damian.tripmaker.traveler.TravelerId;
 import java.time.LocalDateTime;
 
 @RequiredArgsConstructor
+public
 class TripFactory {
 
     private final Trips trips;

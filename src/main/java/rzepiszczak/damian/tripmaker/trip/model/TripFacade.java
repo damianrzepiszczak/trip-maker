@@ -9,23 +9,23 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 @RequiredArgsConstructor
-public class TripService {
+public class TripFacade {
 
     private final Trips trips;
     private final Clock clock;
     private final TripFactory tripFactory;
 
-    void create(TravelerId travelerId, String destination, LocalDateTime from, LocalDateTime to) {
+    public void create(TravelerId travelerId, String destination, LocalDateTime from, LocalDateTime to) {
         Trip trip = tripFactory.create(travelerId, destination, from, to);
         trips.save(trip);
     }
 
-    void assignPlan(TripId tripId, AssignPlanCommand request) {
-        Optional<Trip> found = trips.findById(tripId);
-        found.ifPresent(trip -> trip.assign(createTimeline(request)));
+    public void assignPlan(AssignPlanCommand command) {
+        Optional<Trip> found = trips.findById(command.getTripId());
+        found.ifPresent(trip -> trip.assign(createTimeline(command)));
     }
 
-    void start(TripId tripId) {
+    public void start(TripId tripId) {
         Optional<Trip> found = trips.findById(tripId);
         found.ifPresent(trip -> trip.start(clock.now()));
     }
