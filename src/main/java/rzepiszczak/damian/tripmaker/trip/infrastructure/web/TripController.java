@@ -10,7 +10,7 @@ import rzepiszczak.damian.tripmaker.trip.model.TripId;
 
 @RestController
 @RequiredArgsConstructor
-public class TripController {
+class TripController {
 
     private final TripFacade facade;
 
