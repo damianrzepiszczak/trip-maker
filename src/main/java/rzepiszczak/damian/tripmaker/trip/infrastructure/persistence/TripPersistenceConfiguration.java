@@ -1,4 +1,4 @@
-package rzepiszczak.damian.tripmaker.trip.infrastructure;
+package rzepiszczak.damian.tripmaker.trip.infrastructure.persistence;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

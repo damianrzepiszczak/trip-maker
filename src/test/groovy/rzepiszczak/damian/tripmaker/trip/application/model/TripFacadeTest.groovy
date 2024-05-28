@@ -3,7 +3,7 @@ package rzepiszczak.damian.tripmaker.trip.application.model
 import rzepiszczak.damian.tripmaker.common.MockClock
 import rzepiszczak.damian.tripmaker.trip.application.model.commands.AssignPlanCommand
 import rzepiszczak.damian.tripmaker.trip.application.model.events.*
-import rzepiszczak.damian.tripmaker.trip.infrastructure.TripPersistenceConfiguration
+import rzepiszczak.damian.tripmaker.trip.infrastructure.persistence.TripPersistenceConfiguration
 import spock.lang.Specification
 
 import java.time.LocalDateTime

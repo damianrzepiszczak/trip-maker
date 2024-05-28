@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.noClasses;
 
 @AnalyzeClasses(packages = "rzepiszczak.damian.tripmaker")
-class PortAndAdaptersRuleTests {
+class DomainModelDependenciesRuleTest {
 
     @Test
     void domainModelDoesNotDependOnOutside() {

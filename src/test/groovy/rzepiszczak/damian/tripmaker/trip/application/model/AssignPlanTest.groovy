@@ -5,7 +5,7 @@ import rzepiszczak.damian.tripmaker.trip.application.model.commands.AssignPlanCo
 import rzepiszczak.damian.tripmaker.trip.application.model.events.TimelineCreated
 import rzepiszczak.damian.tripmaker.trip.application.model.events.TripCreated
 import rzepiszczak.damian.tripmaker.trip.application.model.events.TripStarted
-import rzepiszczak.damian.tripmaker.trip.infrastructure.TripPersistenceConfiguration
+import rzepiszczak.damian.tripmaker.trip.infrastructure.persistence.TripPersistenceConfiguration
 import spock.lang.Specification
 
 import java.time.LocalDateTime

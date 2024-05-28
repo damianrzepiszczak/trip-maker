@@ -1,4 +1,4 @@
-package rzepiszczak.damian.tripmaker.trip.infrastructure;
+package rzepiszczak.damian.tripmaker.trip.infrastructure.persistence;
 
 import rzepiszczak.damian.tripmaker.trip.application.model.TravelerId;
 import rzepiszczak.damian.tripmaker.trip.application.model.Trip;
