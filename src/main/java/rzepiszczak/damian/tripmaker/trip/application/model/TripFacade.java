@@ -2,7 +2,6 @@ package rzepiszczak.damian.tripmaker.trip.application.model;
 
 import lombok.RequiredArgsConstructor;
 import rzepiszczak.damian.tripmaker.common.Clock;
-import rzepiszczak.damian.tripmaker.traveler.TravelerId;
 import rzepiszczak.damian.tripmaker.trip.application.model.commands.AssignPlanCommand;
 
 import java.time.LocalDateTime;

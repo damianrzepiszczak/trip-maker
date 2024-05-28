@@ -1,7 +1,5 @@
 package rzepiszczak.damian.tripmaker.trip.application.model;
 
-import rzepiszczak.damian.tripmaker.traveler.TravelerId;
-
 import java.util.List;
 import java.util.Optional;
 

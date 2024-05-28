@@ -12,10 +12,10 @@ import rzepiszczak.damian.tripmaker.trip.application.model.TripService;
 @RequiredArgsConstructor
 class TripController {
 
-    private final TripService facade;
+    private final TripService tripService;
 
     @PostMapping("/trips/{tripId}/plans")
-    public void assignPlan(@PathVariable String tripId) {
-        facade.assignPlan(new AssignPlanCommand(new TripId()));
+    void assignPlan(@PathVariable String tripId) {
+        tripService.assignPlan(new AssignPlanCommand(new TripId()));
     }
 }

@@ -20,7 +20,8 @@ class PortAndAdaptersRuleTests {
                 .resideOutsideOfPackages("rzepiszczak.damian.tripmaker.trip.application.model..",
                         "java..",
                         "lombok..",
-                        "rzepiszczak.damian.tripmaker.common..")
+                        "rzepiszczak.damian.tripmaker.common..",
+                        "org.springframework..")
                 .check(new ClassFileImporter()
                         .withImportOption(ImportOption.Predefined.DO_NOT_INCLUDE_TESTS)
                         .importPackages("rzepiszczak.damian.tripmaker.trip.."));

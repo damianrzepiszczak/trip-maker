@@ -1,7 +1,6 @@
 package rzepiszczak.damian.tripmaker.trip.application.model
 
-import rzepiszczak.damian.tripmaker.planning.PlanId
-import rzepiszczak.damian.tripmaker.traveler.TravelerId
+
 import rzepiszczak.damian.tripmaker.trip.application.model.events.*
 import spock.lang.Specification
 import spock.lang.Subject
@@ -13,11 +12,11 @@ class TripTest extends Specification {
 
     private LocalDateTime from = LocalDateTime.of(2024, Month.MAY, 3, 0, 0)
     @Subject
-    private Trip trip = new Trip(new TravelerId(), Destination.of("Madeira"), Period.from(from, from.plusDays(2)))
+    private Trip trip = new Trip(TravelerId.from(UUID.randomUUID()), Destination.of("Madeira"), Period.from(from, from.plusDays(2)))
 
     def 'can start max one day before from date'() {
         given: 'new timeline created'
-            trip.assign(new Timeline(new PlanId()))
+            trip.assign(new Timeline(PlanId.from(UUID.randomUUID())))
         expect: 'start trip one day before'
             trip.start(from.minusDays(1)).isSuccessful()
         and: 'trip was created and started'
@@ -32,7 +31,7 @@ class TripTest extends Specification {
 
     def 'can start if timeline assigned'() {
         given:
-            Timeline plan = new Timeline(new PlanId())
+            Timeline plan = new Timeline(PlanId.from(UUID.randomUUID()))
         and:
             trip.assign(plan)
         expect:
@@ -48,7 +47,7 @@ class TripTest extends Specification {
 
     def 'can finish started trip'() {
         given:
-            trip.assign(new Timeline(new PlanId()))
+            trip.assign(new Timeline(PlanId.from(UUID.randomUUID())))
         and:
             trip.start(from)
         expect:
@@ -70,7 +69,7 @@ class TripTest extends Specification {
 
     def 'should not cancel started trip'() {
         given:
-            trip.assign(new Timeline(new PlanId()))
+            trip.assign(new Timeline(PlanId.from(UUID.randomUUID())))
         and:
             trip.start(from)
         expect:
@@ -80,7 +79,7 @@ class TripTest extends Specification {
 
     def 'can share finished trip'() {
         given:
-            trip.assign(new Timeline(new PlanId()))
+            trip.assign(new Timeline(PlanId.from(UUID.randomUUID())))
         and:
             trip.start(from)
         and:

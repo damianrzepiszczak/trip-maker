@@ -1,10 +1,9 @@
 package rzepiszczak.damian.tripmaker.trip.application.model
 
 import rzepiszczak.damian.tripmaker.common.MockClock
-import rzepiszczak.damian.tripmaker.traveler.TravelerId
 import rzepiszczak.damian.tripmaker.trip.application.model.commands.AssignPlanCommand
 import rzepiszczak.damian.tripmaker.trip.application.model.events.*
-import rzepiszczak.damian.tripmaker.trip.infrastructure.TripConfiguration
+import rzepiszczak.damian.tripmaker.trip.infrastructure.TripPersistenceConfiguration
 import spock.lang.Specification
 
 import java.time.LocalDateTime
@@ -12,13 +11,12 @@ import java.time.LocalDateTime
 class TripFacadeTest extends Specification {
 
     private LocalDateTime someDay = LocalDateTime.of(2024, 5, 15, 0, 0)
-    private TripConfiguration configuration = new TripConfiguration()
+    private TravelerId travelerId = TravelerId.from(UUID.randomUUID())
+    private TripPersistenceConfiguration configuration = new TripPersistenceConfiguration()
     private Trips trips = configuration.tripRepository()
     private TripService tripService = new TripFacade(trips, new MockClock(someDay), new TripFactory(trips))
 
     def 'should create trip after choosing destination and period'() {
-        given: 'traveler wants to organize new trip'
-            TravelerId travelerId = new TravelerId()
         when: 'for given destination and period create trip'
             tripService.create(travelerId, "Los Angeles", someDay, someDay.plusDays(5))
         then: 'trip was created'
@@ -29,7 +27,6 @@ class TripFacadeTest extends Specification {
 
     def 'cannot create trip with the same destination'() {
         given: 'traveler creates trip to Dubai'
-            TravelerId travelerId = new TravelerId()
             tripService.create(travelerId, "Dubai", someDay, someDay.plusDays(10))
         when: 'traveler creates second trip to Dubai'
             tripService.create(travelerId, "Dubai", someDay, someDay.plusDays(7))
@@ -39,18 +36,15 @@ class TripFacadeTest extends Specification {
 
     def 'can create two trips with different destination'() {
         given: 'traveler creates trip to Dubai'
-        TravelerId travelerId = new TravelerId()
-        tripService.create(travelerId, "Dubai", someDay, someDay.plusDays(10))
+            tripService.create(travelerId, "Dubai", someDay, someDay.plusDays(10))
         when: 'traveler creates second trip to Madeira'
-        tripService.create(travelerId, "Madeira", someDay, someDay.plusDays(7))
+            tripService.create(travelerId, "Madeira", someDay, someDay.plusDays(7))
         then: 'can create with the same destination'
-        trips.findTravelerTrips(travelerId).size() == 2
+            trips.findTravelerTrips(travelerId).size() == 2
     }
 
     def 'can start trip after plan assignment'() {
         given: 'traveler wants to create trip based on plan'
-            TravelerId travelerId = new TravelerId()
-        and:
             tripService.create(travelerId, "Madrid", someDay, someDay.plusDays(5))
         and:
             Trip madridTrip = trips.findTravelerTrips(travelerId)[0]
@@ -63,8 +57,6 @@ class TripFacadeTest extends Specification {
 
     def 'can finish trip if it is started'() {
         given:
-            TravelerId travelerId = new TravelerId()
-        and:
             tripService.create(travelerId, "London", someDay, someDay.plusDays(2))
         and:
             Trip trip = trips.findTravelerTrips(travelerId)[0]
@@ -79,8 +71,6 @@ class TripFacadeTest extends Specification {
 
     def 'can share trip if it is finished'() {
         given: 'traveler wants to complete trip and share'
-            TravelerId travelerId = new TravelerId()
-        and:
             tripService.create(travelerId, "London", someDay, someDay.plusDays(2))
         and:
             Trip trip = trips.findTravelerTrips(travelerId)[0]

@@ -1,7 +1,6 @@
 package rzepiszczak.damian.tripmaker.trip.application.model;
 
 import lombok.RequiredArgsConstructor;
-import rzepiszczak.damian.tripmaker.planning.PlanId;
 
 import java.util.ArrayList;
 import java.util.Collections;

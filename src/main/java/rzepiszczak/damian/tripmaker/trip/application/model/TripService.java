@@ -1,6 +1,5 @@
 package rzepiszczak.damian.tripmaker.trip.application.model;
 
-import rzepiszczak.damian.tripmaker.traveler.TravelerId;
 import rzepiszczak.damian.tripmaker.trip.application.model.commands.AssignPlanCommand;
 
 import java.time.LocalDateTime;

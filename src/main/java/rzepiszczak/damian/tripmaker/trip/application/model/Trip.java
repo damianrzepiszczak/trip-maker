@@ -3,7 +3,6 @@ package rzepiszczak.damian.tripmaker.trip.application.model;
 import lombok.*;
 import rzepiszczak.damian.tripmaker.common.Result;
 import rzepiszczak.damian.tripmaker.common.event.DomainEvent;
-import rzepiszczak.damian.tripmaker.traveler.TravelerId;
 import rzepiszczak.damian.tripmaker.trip.application.model.events.*;
 
 import java.time.Duration;

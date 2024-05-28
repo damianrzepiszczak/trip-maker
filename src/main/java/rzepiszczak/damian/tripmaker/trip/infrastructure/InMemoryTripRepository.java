@@ -1,6 +1,6 @@
 package rzepiszczak.damian.tripmaker.trip.infrastructure;
 
-import rzepiszczak.damian.tripmaker.traveler.TravelerId;
+import rzepiszczak.damian.tripmaker.trip.application.model.TravelerId;
 import rzepiszczak.damian.tripmaker.trip.application.model.Trip;
 import rzepiszczak.damian.tripmaker.trip.application.model.TripId;
 import rzepiszczak.damian.tripmaker.trip.application.model.Trips;
@@ -13,6 +13,7 @@ class InMemoryTripRepository implements Trips {
 
     private final List<Trip> trips = new ArrayList<>();
 
+    @Override
     public Optional<Trip> findById(TripId tripId) {
         return trips.stream()
                 .filter(trip -> trip.getTripId().equals(tripId))
@@ -26,6 +27,7 @@ class InMemoryTripRepository implements Trips {
                 .toList();
     }
 
+    @Override
     public void save(Trip trip) {
         trips.add(trip);
     }
