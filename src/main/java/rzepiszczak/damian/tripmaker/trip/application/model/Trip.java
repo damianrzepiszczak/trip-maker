@@ -1,10 +1,10 @@
-package rzepiszczak.damian.tripmaker.trip.model;
+package rzepiszczak.damian.tripmaker.trip.application.model;
 
 import lombok.*;
 import rzepiszczak.damian.tripmaker.common.Result;
 import rzepiszczak.damian.tripmaker.common.event.DomainEvent;
 import rzepiszczak.damian.tripmaker.traveler.TravelerId;
-import rzepiszczak.damian.tripmaker.trip.model.events.*;
+import rzepiszczak.damian.tripmaker.trip.application.model.events.*;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -15,7 +15,7 @@ import java.util.Objects;
 
 import static rzepiszczak.damian.tripmaker.common.Result.failure;
 import static rzepiszczak.damian.tripmaker.common.Result.success;
-import static rzepiszczak.damian.tripmaker.trip.model.Trip.Stage.*;
+import static rzepiszczak.damian.tripmaker.trip.application.model.Trip.Stage.*;
 
 @ToString
 @NoArgsConstructor(access = AccessLevel.PACKAGE)

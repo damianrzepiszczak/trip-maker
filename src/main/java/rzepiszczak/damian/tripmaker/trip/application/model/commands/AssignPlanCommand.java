@@ -1,9 +1,9 @@
-package rzepiszczak.damian.tripmaker.trip.application;
+package rzepiszczak.damian.tripmaker.trip.application.model.commands;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import rzepiszczak.damian.tripmaker.planning.PlanId;
-import rzepiszczak.damian.tripmaker.trip.model.TripId;
+import rzepiszczak.damian.tripmaker.trip.application.model.TripId;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;

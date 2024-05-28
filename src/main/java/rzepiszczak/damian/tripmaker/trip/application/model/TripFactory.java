@@ -1,4 +1,4 @@
-package rzepiszczak.damian.tripmaker.trip.model;
+package rzepiszczak.damian.tripmaker.trip.application.model;
 
 import lombok.RequiredArgsConstructor;
 import rzepiszczak.damian.tripmaker.traveler.TravelerId;
@@ -6,11 +6,11 @@ import rzepiszczak.damian.tripmaker.traveler.TravelerId;
 import java.time.LocalDateTime;
 
 @RequiredArgsConstructor
-public class TripFactory {
+class TripFactory {
 
     private final Trips trips;
 
-    public Trip create(TravelerId travelerId, String destination, LocalDateTime from, LocalDateTime to) {
+    Trip create(TravelerId travelerId, String destination, LocalDateTime from, LocalDateTime to) {
         if (notExistsWithSameDestination(travelerId, destination)) {
             Trip trip = new Trip(travelerId, Destination.of(destination), Period.from(from, to));
             trip.setTripId(new TripId());

@@ -1,6 +1,6 @@
 package rzepiszczak.damian.tripmaker.trip.infrastructure;
 
-import rzepiszczak.damian.tripmaker.trip.model.Trips;
+import rzepiszczak.damian.tripmaker.trip.application.model.Trips;
 
 public class TripConfiguration {
 
