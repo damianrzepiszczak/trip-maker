@@ -1,6 +1,7 @@
 package rzepiszczak.damian.tripmaker.trip.application.model
 
 import rzepiszczak.damian.tripmaker.common.MockClock
+import rzepiszczak.damian.tripmaker.common.event.SimpleForwardDomainEventPublisher
 import rzepiszczak.damian.tripmaker.trip.application.model.commands.AssignPlanCommand
 import rzepiszczak.damian.tripmaker.trip.application.model.events.*
 import rzepiszczak.damian.tripmaker.trip.infrastructure.persistence.TripPersistenceConfiguration
@@ -14,7 +15,8 @@ class TripFacadeTest extends Specification {
     private TravelerId travelerId = TravelerId.from(UUID.randomUUID())
     private TripPersistenceConfiguration configuration = new TripPersistenceConfiguration()
     private Trips trips = configuration.tripRepository()
-    private TripService tripService = new TripFacade(trips, new MockClock(someDay), new TripFactory(trips))
+    def  domainEventPublisher = new SimpleForwardDomainEventPublisher()
+    private TripService tripService = new TripFacade(trips, new MockClock(someDay), new TripFactory(trips), domainEventPublisher)
 
     def 'should create trip after choosing destination and period'() {
         when: 'for given destination and period create trip'

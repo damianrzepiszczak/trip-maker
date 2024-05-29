@@ -2,6 +2,7 @@ package rzepiszczak.damian.tripmaker.trip.application.model;
 
 import lombok.RequiredArgsConstructor;
 import rzepiszczak.damian.tripmaker.common.Clock;
+import rzepiszczak.damian.tripmaker.common.event.DomainEventPublisher;
 import rzepiszczak.damian.tripmaker.trip.application.model.commands.AssignPlanCommand;
 
 import java.time.LocalDateTime;
@@ -13,36 +14,45 @@ class TripFacade implements TripService {
     private final Trips trips;
     private final Clock clock;
     private final TripFactory tripFactory;
+    private final DomainEventPublisher domainEventPublisher;
 
     @Override
     public TripId create(TravelerId travelerId, String destination, LocalDateTime from, LocalDateTime to) {
         Trip trip = tripFactory.create(travelerId, destination, from, to);
         trips.save(trip);
+        domainEventPublisher.publish(trip.events());
         return trip.getTripId();
     }
 
     @Override
     public void assignPlan(AssignPlanCommand command) {
         Optional<Trip> found = trips.findById(command.getTripId());
-        found.ifPresent(trip -> trip.assign(createTimeline(command)));
+        found.ifPresent(trip -> {
+            trip.assign(createTimeline(command));
+            domainEventPublisher.publish(trip.events());
+        });
     }
 
     @Override
     public void start(TripId tripId) {
         Optional<Trip> found = trips.findById(tripId);
-        found.ifPresent(trip -> trip.start(clock.now()));
+        found.ifPresent(trip -> {
+            trip.start(clock.now());
+            domainEventPublisher.publish(trip.events());
+        });
     }
 
     @Override
     public void finish(TripId tripId) {
-        trips.findById(tripId)
-                .ifPresent(Trip::finish);
+        trips.findById(tripId).ifPresent(trip -> {
+            trip.finish();
+            domainEventPublisher.publish(trip.events());
+        });
     }
 
     @Override
     public void share(TripId tripId) {
-        trips.findById(tripId)
-                .ifPresent(Trip::share);
+        trips.findById(tripId).ifPresent(Trip::share);
     }
 
     private Timeline createTimeline(AssignPlanCommand request) {

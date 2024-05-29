@@ -1,4 +1,7 @@
 package rzepiszczak.damian.tripmaker.common.event;
 
-public class DomainEventPublisher {
+import java.util.List;
+
+public interface DomainEventPublisher {
+    void publish(List<DomainEvent> event);
 }
