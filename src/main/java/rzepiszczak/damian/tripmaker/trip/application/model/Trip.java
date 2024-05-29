@@ -1,8 +1,8 @@
 package rzepiszczak.damian.tripmaker.trip.application.model;
 
 import lombok.*;
-import rzepiszczak.damian.tripmaker.common.Result;
 import rzepiszczak.damian.tripmaker.common.event.DomainEvent;
+import rzepiszczak.damian.tripmaker.common.exception.DomainException;
 import rzepiszczak.damian.tripmaker.trip.application.model.events.*;
 
 import java.time.Duration;
@@ -12,12 +12,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-import static rzepiszczak.damian.tripmaker.common.Result.failure;
-import static rzepiszczak.damian.tripmaker.common.Result.success;
 import static rzepiszczak.damian.tripmaker.trip.application.model.Trip.Stage.*;
 
 @ToString
-@NoArgsConstructor(access = AccessLevel.PACKAGE)
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class Trip {
 
     enum Stage {PLANNING, STARTED, FINISHED, CANCELLED}
@@ -41,13 +39,12 @@ public class Trip {
         events.add(new TripCreated("TripId"));
     }
 
-    Result start(LocalDateTime startedAt) {
-        if (canStart(startedAt)) {
-            stage = STARTED;
-            events.add(new TripStarted(tripId));
-            return success();
+    void start(LocalDateTime startedAt) {
+        if (!canStart(startedAt)) {
+            throw new DomainException("Cannot start trip, assign plan or check possible start date");
         }
-        return failure();
+        stage = STARTED;
+        events.add(new TripStarted(tripId));
     }
 
     private boolean canStart(LocalDateTime now) {
@@ -56,30 +53,27 @@ public class Trip {
                 && timeline != null;
     }
 
-    Result finish() {
+    void finish() {
+        if (stage != STARTED) {
+            throw new DomainException("Cannot finish not started trip");
+        }
+        stage = FINISHED;
+        events.add(new TripFinished(tripId));
+    }
+
+    void cancel() {
         if (stage == STARTED) {
-            stage = FINISHED;
-            events.add(new TripFinished(tripId));
-            return success();
+            throw new DomainException("Cannot cancel started trip");
         }
-        return failure();
+        stage = CANCELLED;
+        events.add(new TripCanceled(tripId));
     }
 
-    Result cancel() {
-        if (stage == PLANNING) {
-            stage = CANCELLED;
-            events.add(new TripCanceled(tripId));
-            return success();
+    void share() {
+        if (stage != FINISHED) {
+            throw new DomainException("Cannot share not finished trip");
         }
-        return failure();
-    }
-
-    Result share() {
-        if (stage == FINISHED) {
-            events.add(new TripShared(tripId));
-            return success();
-        }
-        return failure();
+        events.add(new TripShared(tripId));
     }
 
     void assign(Timeline timeline) {

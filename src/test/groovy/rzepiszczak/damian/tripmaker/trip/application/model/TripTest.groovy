@@ -1,6 +1,6 @@
 package rzepiszczak.damian.tripmaker.trip.application.model
 
-
+import rzepiszczak.damian.tripmaker.common.exception.DomainException
 import rzepiszczak.damian.tripmaker.trip.application.model.events.*
 import spock.lang.Specification
 import spock.lang.Subject
@@ -17,16 +17,18 @@ class TripTest extends Specification {
     def 'can start max one day before from date'() {
         given: 'new timeline created'
             trip.assign(new Timeline(PlanId.from(UUID.randomUUID())))
-        expect: 'start trip one day before'
-            trip.start(from.minusDays(1)).isSuccessful()
-        and: 'trip was created and started'
+        when: 'start trip one day before'
+            trip.start(from.minusDays(1))
+        then: 'trip was created and started'
             trip.events()*.class == [TripCreated, TimelineCreated, TripStarted]
     }
 
     def 'cannot start if more than one day before from'() {
-        expect:
-            trip.start(from.minusDays(2)).isFailure()
-            trip.events()*.class == [TripCreated]
+        when:
+            trip.start(from.minusDays(2))
+        then:
+            DomainException exception = thrown()
+            exception.message == "Cannot start trip, assign plan or check possible start date"
     }
 
     def 'can start if timeline assigned'() {
@@ -34,15 +36,18 @@ class TripTest extends Specification {
             Timeline plan = new Timeline(PlanId.from(UUID.randomUUID()))
         and:
             trip.assign(plan)
-        expect:
-            trip.start(from).isSuccessful()
+        when:
+            trip.start(from)
+        then:
             trip.events()*.class == [TripCreated, TimelineCreated, TripStarted]
     }
 
     def 'cannot start if timeline not assigned'() {
-        expect:
-            trip.start(from).isFailure()
-            trip.events()*.class == [TripCreated]
+        when:
+            trip.start(from)
+        then:
+            DomainException exception = thrown()
+            exception.message == "Cannot start trip, assign plan or check possible start date"
     }
 
     def 'can finish started trip'() {
@@ -51,30 +56,34 @@ class TripTest extends Specification {
         and:
             trip.start(from)
         expect:
-            trip.finish().isSuccessful()
+            trip.finish()
             trip.events()*.class == [TripCreated, TimelineCreated, TripStarted, TripFinished]
     }
 
     def 'cannot finish not started trip'() {
-        expect:
-            trip.finish().isFailure()
-            trip.events()*.class == [TripCreated]
+        when:
+            trip.finish()
+        then:
+            DomainException exception = thrown()
+            exception.message == "Cannot finish not started trip"
     }
 
     def 'should cancel not started trip'() {
-        expect:
-            trip.cancel().isSuccessful()
+        when:
+            trip.cancel()
+        then:
             trip.events()*.class == [TripCreated, TripCanceled]
     }
 
     def 'should not cancel started trip'() {
         given:
             trip.assign(new Timeline(PlanId.from(UUID.randomUUID())))
-        and:
+        when:
             trip.start(from)
-        expect:
-            trip.cancel().isFailure()
-            trip.events()*.class == [TripCreated, TimelineCreated, TripStarted]
+            trip.cancel()
+        then:
+            DomainException exception = thrown()
+            exception.message == "Cannot cancel started trip"
     }
 
     def 'can share finished trip'() {
@@ -84,8 +93,21 @@ class TripTest extends Specification {
             trip.start(from)
         and:
             trip.finish()
-        expect:
-            trip.share().isSuccessful()
+        when:
+            trip.share()
+        then:
             trip.events()*.class == [TripCreated, TimelineCreated, TripStarted, TripFinished, TripShared]
+    }
+
+    def 'cannot share not finished trip'() {
+        given:
+            trip.assign(new Timeline(PlanId.from(UUID.randomUUID())))
+        and:
+            trip.start(from)
+        when:
+            trip.share()
+        then:
+            DomainException exception = thrown()
+            exception.message == "Cannot share not finished trip"
     }
 }

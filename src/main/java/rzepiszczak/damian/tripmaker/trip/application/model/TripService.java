@@ -5,7 +5,7 @@ import rzepiszczak.damian.tripmaker.trip.application.model.commands.AssignPlanCo
 import java.time.LocalDateTime;
 
 public interface TripService {
-    void create(TravelerId travelerId, String destination, LocalDateTime from, LocalDateTime to);
+    TripId create(TravelerId travelerId, String destination, LocalDateTime from, LocalDateTime to);
     void assignPlan(AssignPlanCommand command);
     void start(TripId tripId);
     void finish(TripId tripId);

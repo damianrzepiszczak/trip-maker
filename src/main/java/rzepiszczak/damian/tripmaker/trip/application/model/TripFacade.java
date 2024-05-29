@@ -15,9 +15,10 @@ class TripFacade implements TripService {
     private final TripFactory tripFactory;
 
     @Override
-    public void create(TravelerId travelerId, String destination, LocalDateTime from, LocalDateTime to) {
+    public TripId create(TravelerId travelerId, String destination, LocalDateTime from, LocalDateTime to) {
         Trip trip = tripFactory.create(travelerId, destination, from, to);
         trips.save(trip);
+        return trip.getTripId();
     }
 
     @Override

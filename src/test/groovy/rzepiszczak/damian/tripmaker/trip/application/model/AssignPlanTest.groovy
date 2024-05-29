@@ -21,14 +21,14 @@ class AssignPlanTest extends Specification {
         given: 'traveler want to organize Dubai trip based on sample plan details'
             TravelerId travelerId = TravelerId.from(UUID.randomUUID())
         and:
-            tripService.create(travelerId, "Dubai", someDay, someDay.plusDays(1))
-            Trip trip = trips.findTravelerTrips(travelerId)[0]
+            TripId tripId = tripService.create(travelerId, "Dubai", someDay, someDay.plusDays(1))
         when: 'assign plan'
-            AssignPlanCommand assignPlanCommand = new AssignPlanCommand(trip.tripId)
+            AssignPlanCommand assignPlanCommand = new AssignPlanCommand(tripId)
             assignPlanCommand.addDetail(someDay, new AssignPlanCommand.DayInformation("First day activities", List.of("Deira")))
             tripService.assignPlan(assignPlanCommand)
         then: 'timeline was created and trip can be started'
-            trip.start(someDay).isSuccessful()
+            tripService.start(tripId)
+            Trip trip = trips.findTravelerTrips(travelerId)[0]
             trip.events()*.class == [TripCreated, TimelineCreated, TripStarted]
     }
 }

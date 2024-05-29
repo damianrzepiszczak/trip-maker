@@ -51,7 +51,7 @@ class TripFacadeTest extends Specification {
         when: 'create new timeline based on plan'
             tripService.assignPlan(new AssignPlanCommand(madridTrip.tripId))
         then: 'trip can be started'
-            madridTrip.start(someDay).isSuccessful()
+            madridTrip.start(someDay)
             madridTrip.events()*.class == [TripCreated, TimelineCreated, TripStarted]
     }
 
