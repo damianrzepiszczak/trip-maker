@@ -8,6 +8,8 @@ import rzepiszczak.damian.tripmaker.trip.application.model.commands.AssignPlanCo
 import rzepiszczak.damian.tripmaker.trip.application.model.TripId;
 import rzepiszczak.damian.tripmaker.trip.application.model.TripService;
 
+import java.util.UUID;
+
 @RestController
 @RequiredArgsConstructor
 class TripController {
@@ -16,6 +18,6 @@ class TripController {
 
     @PostMapping("/trips/{tripId}/plans")
     void assignPlan(@PathVariable String tripId) {
-        tripService.assignPlan(new AssignPlanCommand(new TripId()));
+        tripService.assignPlan(new AssignPlanCommand(TripId.from(UUID.fromString(tripId))));
     }
 }

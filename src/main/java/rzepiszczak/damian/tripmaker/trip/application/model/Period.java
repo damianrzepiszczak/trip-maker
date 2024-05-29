@@ -14,6 +14,9 @@ class Period {
     private LocalDateTime to;
 
     public static Period from(LocalDateTime from, LocalDateTime to) {
-        return new Period(from, to);
+        if (to.isAfter(from)) {
+            return new Period(from, to);
+        }
+        throw new IllegalStateException("Cannot create trip with from date which is after to date");
     }
 }

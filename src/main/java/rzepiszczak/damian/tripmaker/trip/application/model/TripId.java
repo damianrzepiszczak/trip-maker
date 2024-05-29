@@ -1,12 +1,16 @@
 package rzepiszczak.damian.tripmaker.trip.application.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.ToString;
 
 import java.util.UUID;
 
 @Getter
-@ToString
+@AllArgsConstructor
 public class TripId {
-    private final String id = UUID.randomUUID().toString();
+    private String id;
+
+    public static TripId from(UUID id) {
+        return new TripId(id.toString());
+    }
 }
