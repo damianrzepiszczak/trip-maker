@@ -3,6 +3,7 @@ package rzepiszczak.damian.tripmaker.trip.application.model
 import rzepiszczak.damian.tripmaker.common.MockClock
 import rzepiszczak.damian.tripmaker.common.event.DomainEventPublisher
 import rzepiszczak.damian.tripmaker.common.event.SimpleForwardDomainEventPublisher
+import rzepiszczak.damian.tripmaker.common.exception.DomainException
 import rzepiszczak.damian.tripmaker.trip.application.model.commands.AssignPlanCommand
 import rzepiszczak.damian.tripmaker.trip.application.model.events.*
 import rzepiszczak.damian.tripmaker.trip.infrastructure.persistence.TripPersistenceConfiguration
@@ -34,7 +35,8 @@ class TripFacadeTest extends Specification {
         when: 'traveler creates second trip to Dubai'
             tripService.create(travelerId, "Dubai", someDay, someDay.plusDays(7))
         then: 'cannot create with the same destination'
-            thrown IllegalStateException
+            DomainException exception = thrown()
+            exception.message == "Trying to create trip with the same destination"
     }
 
     def 'can create two trips with different destination'() {

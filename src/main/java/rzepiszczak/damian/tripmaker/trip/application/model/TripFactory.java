@@ -1,6 +1,7 @@
 package rzepiszczak.damian.tripmaker.trip.application.model;
 
 import lombok.RequiredArgsConstructor;
+import rzepiszczak.damian.tripmaker.common.exception.DomainException;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -14,7 +15,7 @@ class TripFactory {
         if (notExistsWithSameDestination(travelerId, destination)) {
             return new Trip(TripId.from(UUID.randomUUID()), travelerId, Destination.of(destination), Period.from(from, to));
         }
-        throw new IllegalStateException("Trying to create trip with the same destination");
+        throw new DomainException("Trying to create trip with the same destination");
     }
 
     private boolean notExistsWithSameDestination(TravelerId travelerId, String destination) {
