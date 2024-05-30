@@ -1,4 +1,4 @@
-package rzepiszczak.damian.tripmaker.trip.infrastructure.web;
+package rzepiszczak.damian.tripmaker.trip.ui.web;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PathVariable;
