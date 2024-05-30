@@ -20,8 +20,8 @@ class TripFacade implements TripService {
     public TripId create(TravelerId travelerId, String destination, LocalDateTime from, LocalDateTime to) {
         Trip trip = tripFactory.create(travelerId, destination, from, to);
         trips.save(trip);
-        domainEventPublisher.publish(trip.events());
-        return trip.getTripId();
+        domainEventPublisher.publish(trip.domainEvents());
+        return trip.getId();
     }
 
     @Override
@@ -29,7 +29,7 @@ class TripFacade implements TripService {
         Optional<Trip> found = trips.findById(command.getTripId());
         found.ifPresent(trip -> {
             trip.assign(createTimeline(command));
-            domainEventPublisher.publish(trip.events());
+            domainEventPublisher.publish(trip.domainEvents());
         });
     }
 
@@ -38,7 +38,7 @@ class TripFacade implements TripService {
         Optional<Trip> found = trips.findById(tripId);
         found.ifPresent(trip -> {
             trip.start(clock.now());
-            domainEventPublisher.publish(trip.events());
+            domainEventPublisher.publish(trip.domainEvents());
         });
     }
 
@@ -46,7 +46,7 @@ class TripFacade implements TripService {
     public void finish(TripId tripId) {
         trips.findById(tripId).ifPresent(trip -> {
             trip.finish();
-            domainEventPublisher.publish(trip.events());
+            domainEventPublisher.publish(trip.domainEvents());
         });
     }
 

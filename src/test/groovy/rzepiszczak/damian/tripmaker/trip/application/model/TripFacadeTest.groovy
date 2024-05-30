@@ -1,6 +1,7 @@
 package rzepiszczak.damian.tripmaker.trip.application.model
 
 import rzepiszczak.damian.tripmaker.common.MockClock
+import rzepiszczak.damian.tripmaker.common.event.DomainEventPublisher
 import rzepiszczak.damian.tripmaker.common.event.SimpleForwardDomainEventPublisher
 import rzepiszczak.damian.tripmaker.trip.application.model.commands.AssignPlanCommand
 import rzepiszczak.damian.tripmaker.trip.application.model.events.*
@@ -15,7 +16,7 @@ class TripFacadeTest extends Specification {
     private TravelerId travelerId = TravelerId.from(UUID.randomUUID())
     private TripPersistenceConfiguration configuration = new TripPersistenceConfiguration()
     private Trips trips = configuration.tripRepository()
-    def  domainEventPublisher = new SimpleForwardDomainEventPublisher()
+    private DomainEventPublisher domainEventPublisher = new SimpleForwardDomainEventPublisher()
     private TripService tripService = new TripFacade(trips, new MockClock(someDay), new TripFactory(trips), domainEventPublisher)
 
     def 'should create trip after choosing destination and period'() {
@@ -24,7 +25,7 @@ class TripFacadeTest extends Specification {
         then: 'trip was created'
             List<Trip> travelerTrips = trips.findTravelerTrips(travelerId)
             travelerTrips.size() == 1
-            travelerTrips[0].events()*.class == [TripCreated]
+            travelerTrips[0].domainEvents()*.class == [TripCreated]
     }
 
     def 'cannot create trip with the same destination'() {
@@ -51,10 +52,10 @@ class TripFacadeTest extends Specification {
         and:
             Trip madridTrip = trips.findTravelerTrips(travelerId)[0]
         when: 'create new timeline based on plan'
-            tripService.assignPlan(new AssignPlanCommand(madridTrip.tripId))
+            tripService.assignPlan(new AssignPlanCommand(madridTrip.getId()))
         then: 'trip can be started'
             madridTrip.start(someDay)
-            madridTrip.events()*.class == [TripCreated, TimelineCreated, TripStarted]
+            madridTrip.domainEvents()*.class == [TripCreated, TimelineCreated, TripStarted]
     }
 
     def 'can finish trip if it is started'() {
@@ -62,13 +63,13 @@ class TripFacadeTest extends Specification {
             tripService.create(travelerId, "London", someDay, someDay.plusDays(2))
         and:
             Trip trip = trips.findTravelerTrips(travelerId)[0]
-            tripService.assignPlan(new AssignPlanCommand(trip.tripId))
+            tripService.assignPlan(new AssignPlanCommand(trip.getId()))
         and:
-            tripService.start(trip.tripId)
+            tripService.start(trip.getId())
         when:
-            tripService.finish(trip.tripId)
+            tripService.finish(trip.getId())
         then: 'traveler can finish trip because is started'
-            trip.events()*.class == [TripCreated, TimelineCreated, TripStarted, TripFinished]
+            trip.domainEvents()*.class == [TripCreated, TimelineCreated, TripStarted, TripFinished]
     }
 
     def 'can share trip if it is finished'() {
@@ -76,14 +77,14 @@ class TripFacadeTest extends Specification {
             tripService.create(travelerId, "London", someDay, someDay.plusDays(2))
         and:
             Trip trip = trips.findTravelerTrips(travelerId)[0]
-            tripService.assignPlan(new AssignPlanCommand(trip.tripId))
+            tripService.assignPlan(new AssignPlanCommand(trip.getId()))
         and:
-            tripService.start(trip.tripId)
+            tripService.start(trip.getId())
         and:
-            tripService.finish(trip.tripId)
+            tripService.finish(trip.getId())
         when: 'traveler shares trip'
-            tripService.share(trip.tripId)
+            tripService.share(trip.getId())
         then: 'trip details can be shared after finishing it'
-            trip.events()*.class == [TripCreated, TimelineCreated, TripStarted, TripFinished, TripShared]
+            trip.domainEvents()*.class == [TripCreated, TimelineCreated, TripStarted, TripFinished, TripShared]
     }
 }

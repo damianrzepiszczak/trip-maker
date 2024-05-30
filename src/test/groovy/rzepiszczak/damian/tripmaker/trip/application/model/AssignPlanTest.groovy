@@ -30,6 +30,6 @@ class AssignPlanTest extends Specification {
         then: 'timeline was created and trip can be started'
             tripService.start(tripId)
             Trip trip = trips.findTravelerTrips(travelerId)[0]
-            trip.events()*.class == [TripCreated, TimelineCreated, TripStarted]
+            trip.domainEvents()*.class == [TripCreated, TimelineCreated, TripStarted]
     }
 }

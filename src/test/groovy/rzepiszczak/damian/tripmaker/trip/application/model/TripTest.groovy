@@ -12,7 +12,7 @@ class TripTest extends Specification {
 
     private LocalDateTime from = LocalDateTime.of(2024, Month.MAY, 3, 0, 0)
     @Subject
-    private Trip trip = new Trip(TravelerId.from(UUID.randomUUID()), Destination.of("Madeira"), Period.from(from, from.plusDays(2)))
+    private Trip trip = new Trip(TripId.from(UUID.randomUUID()), TravelerId.from(UUID.randomUUID()), Destination.of("Madeira"), Period.from(from, from.plusDays(2)))
 
     def 'can start max one day before from date'() {
         given: 'new timeline created'
@@ -20,7 +20,7 @@ class TripTest extends Specification {
         when: 'start trip one day before'
             trip.start(from.minusDays(1))
         then: 'trip was created and started'
-            trip.events()*.class == [TripCreated, TimelineCreated, TripStarted]
+            trip.domainEvents()*.class == [TripCreated, TimelineCreated, TripStarted]
     }
 
     def 'cannot start if more than one day before from'() {
@@ -39,7 +39,7 @@ class TripTest extends Specification {
         when:
             trip.start(from)
         then:
-            trip.events()*.class == [TripCreated, TimelineCreated, TripStarted]
+            trip.domainEvents()*.class == [TripCreated, TimelineCreated, TripStarted]
     }
 
     def 'cannot start if timeline not assigned'() {
@@ -57,7 +57,7 @@ class TripTest extends Specification {
             trip.start(from)
         expect:
             trip.finish()
-            trip.events()*.class == [TripCreated, TimelineCreated, TripStarted, TripFinished]
+            trip.domainEvents()*.class == [TripCreated, TimelineCreated, TripStarted, TripFinished]
     }
 
     def 'cannot finish not started trip'() {
@@ -72,7 +72,7 @@ class TripTest extends Specification {
         when:
             trip.cancel()
         then:
-            trip.events()*.class == [TripCreated, TripCanceled]
+            trip.domainEvents()*.class == [TripCreated, TripCanceled]
     }
 
     def 'should not cancel started trip'() {
@@ -96,7 +96,7 @@ class TripTest extends Specification {
         when:
             trip.share()
         then:
-            trip.events()*.class == [TripCreated, TimelineCreated, TripStarted, TripFinished, TripShared]
+            trip.domainEvents()*.class == [TripCreated, TimelineCreated, TripStarted, TripFinished, TripShared]
     }
 
     def 'cannot share not finished trip'() {
