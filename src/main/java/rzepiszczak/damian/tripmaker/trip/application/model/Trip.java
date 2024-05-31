@@ -25,7 +25,7 @@ public class Trip extends AggregateRoot<TripId> {
     @Getter
     private Destination destination;
     private Period period;
-    private Stage stage = PLANNING;
+    private Stage stage;
     private Timeline timeline;
 
     Trip(TripId tripId, TravelerId travelerId, Destination destination, Period period) {
@@ -33,6 +33,7 @@ public class Trip extends AggregateRoot<TripId> {
         this.destination = destination;
         this.period = period;
         this.travelerId = travelerId;
+        stage = PLANNING;
         registerEvent(new TripCreated(id.getId()));
     }
 

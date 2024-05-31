@@ -16,7 +16,7 @@ class TripTest extends Specification {
 
     def 'can start max one day before from date'() {
         given: 'new timeline created'
-            trip.assign(new Timeline(PlanId.from(UUID.randomUUID())))
+            trip.assign(new Timeline(List.of()))
         when: 'start trip one day before'
             trip.start(from.minusDays(1))
         then: 'trip was created and started'
@@ -33,7 +33,7 @@ class TripTest extends Specification {
 
     def 'can start if timeline assigned'() {
         given:
-            Timeline plan = new Timeline(PlanId.from(UUID.randomUUID()))
+            Timeline plan = new Timeline(List.of())
         and:
             trip.assign(plan)
         when:
@@ -52,7 +52,7 @@ class TripTest extends Specification {
 
     def 'can finish started trip'() {
         given:
-            trip.assign(new Timeline(PlanId.from(UUID.randomUUID())))
+            trip.assign(new Timeline(List.of()))
         and:
             trip.start(from)
         expect:
@@ -77,7 +77,7 @@ class TripTest extends Specification {
 
     def 'should not cancel started trip'() {
         given:
-            trip.assign(new Timeline(PlanId.from(UUID.randomUUID())))
+            trip.assign(new Timeline(List.of()))
         when:
             trip.start(from)
             trip.cancel()
@@ -88,7 +88,7 @@ class TripTest extends Specification {
 
     def 'can share finished trip'() {
         given:
-            trip.assign(new Timeline(PlanId.from(UUID.randomUUID())))
+            trip.assign(new Timeline(List.of()))
         and:
             trip.start(from)
         and:
@@ -101,7 +101,7 @@ class TripTest extends Specification {
 
     def 'cannot share not finished trip'() {
         given:
-            trip.assign(new Timeline(PlanId.from(UUID.randomUUID())))
+            trip.assign(new Timeline(List.of()))
         and:
             trip.start(from)
         when:

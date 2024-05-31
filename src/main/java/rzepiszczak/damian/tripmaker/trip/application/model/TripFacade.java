@@ -4,8 +4,8 @@ import lombok.RequiredArgsConstructor;
 import rzepiszczak.damian.tripmaker.common.Clock;
 import rzepiszczak.damian.tripmaker.common.event.DomainEventPublisher;
 import rzepiszczak.damian.tripmaker.trip.application.model.commands.AssignPlanCommand;
+import rzepiszczak.damian.tripmaker.trip.application.model.commands.CreateNewTripCommand;
 
-import java.time.LocalDateTime;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -17,8 +17,9 @@ class TripFacade implements TripService {
     private final DomainEventPublisher domainEventPublisher;
 
     @Override
-    public TripId create(TravelerId travelerId, String destination, LocalDateTime from, LocalDateTime to) {
-        Trip trip = tripFactory.create(travelerId, destination, from, to);
+    public TripId create(CreateNewTripCommand createNewTripCommand) {
+        Trip trip = tripFactory.create(createNewTripCommand.travelerId(),
+                createNewTripCommand.destination(), createNewTripCommand.from(), createNewTripCommand.to());
         trips.save(trip);
         domainEventPublisher.publish(trip.domainEvents());
         return trip.getId();
@@ -28,7 +29,7 @@ class TripFacade implements TripService {
     public void assignPlan(AssignPlanCommand command) {
         Optional<Trip> found = trips.findById(command.getTripId());
         found.ifPresent(trip -> {
-            trip.assign(createTimeline(command));
+            trip.assign(TimelineCreator.create(command));
             domainEventPublisher.publish(trip.domainEvents());
         });
     }
@@ -53,11 +54,5 @@ class TripFacade implements TripService {
     @Override
     public void share(TripId tripId) {
         trips.findById(tripId).ifPresent(Trip::share);
-    }
-
-    private Timeline createTimeline(AssignPlanCommand request) {
-        Timeline timeline = new Timeline(request.getPlanId());
-        request.getDetails().forEach((day, information) -> timeline.assignDayActivity(new DayActivity(day, information.note(), information.attractions())));
-        return timeline;
     }
 }
