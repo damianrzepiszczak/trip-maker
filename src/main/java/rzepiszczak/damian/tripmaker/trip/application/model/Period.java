@@ -4,17 +4,16 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-import java.time.Duration;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Getter
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 class Period {
 
-    private LocalDateTime from;
-    private LocalDateTime to;
+    private LocalDate from;
+    private LocalDate to;
 
-    public static Period from(LocalDateTime from, LocalDateTime to) {
+    public static Period from(LocalDate from, LocalDate to) {
         if (to.isAfter(from)) {
             return new Period(from, to);
         }
@@ -22,6 +21,6 @@ class Period {
     }
 
     long howManyDays() {
-        return Duration.between(from, to).toDays();
+        return java.time.Period.between(from, to).getDays();
     }
 }

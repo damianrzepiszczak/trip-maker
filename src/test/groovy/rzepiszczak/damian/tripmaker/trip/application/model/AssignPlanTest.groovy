@@ -10,11 +10,11 @@ import rzepiszczak.damian.tripmaker.trip.application.model.events.TripStarted
 import rzepiszczak.damian.tripmaker.trip.infrastructure.persistence.TripPersistenceConfiguration
 import spock.lang.Specification
 
-import java.time.LocalDateTime
+import java.time.LocalDate
 
 class AssignPlanTest extends Specification {
 
-    private LocalDateTime someDay = LocalDateTime.of(2024, 5, 15, 0, 0)
+    private LocalDate someDay = LocalDate.of(2024, 5, 15)
     private TripPersistenceConfiguration configuration = new TripPersistenceConfiguration()
     private Trips trips = configuration.tripRepository()
     private TripService tripService = new TripFacade(trips, new MockClock(someDay), new TripFactory(trips), new SimpleForwardDomainEventPublisher())
@@ -26,7 +26,7 @@ class AssignPlanTest extends Specification {
             TripId tripId = tripService.create(new CreateNewTripCommand(travelerId, "Dubai", someDay, someDay.plusDays(1)))
         when: 'assign plan'
             AssignPlanCommand assignPlanCommand = new AssignPlanCommand(tripId)
-            assignPlanCommand.addDetail(someDay.toLocalDate(), new AssignPlanCommand.DayInformation("First day activities", List.of("Deira")))
+            assignPlanCommand.addDetail(someDay, new AssignPlanCommand.DayInformation("First day activities", List.of("Deira")))
             tripService.assignPlan(assignPlanCommand)
         then: 'timeline was created and trip can be started'
             tripService.start(tripId)

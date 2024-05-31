@@ -8,9 +8,7 @@ import rzepiszczak.damian.tripmaker.common.AggregateRoot;
 import rzepiszczak.damian.tripmaker.common.exception.DomainException;
 import rzepiszczak.damian.tripmaker.trip.application.model.events.*;
 
-import java.time.Duration;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Objects;
 
 import static rzepiszczak.damian.tripmaker.trip.application.model.Trip.Stage.*;
@@ -38,7 +36,7 @@ public class Trip extends AggregateRoot<TripId> {
         registerEvent(new TripCreated(id.getId()));
     }
 
-    void start(LocalDateTime startedAt) {
+    void start(LocalDate startedAt) {
         if (!canStart(startedAt)) {
             throw new DomainException("Cannot start trip, assign plan or check possible start date");
         }
@@ -46,9 +44,9 @@ public class Trip extends AggregateRoot<TripId> {
         registerEvent(new TripStarted(id));
     }
 
-    private boolean canStart(LocalDateTime now) {
+    private boolean canStart(LocalDate now) {
         return (now.isBefore(period.getFrom()) || now.isEqual(period.getFrom()))
-                && Duration.between(now, period.getFrom()).toDays() <= 1
+                && java.time.Period.between(now, period.getFrom()).getDays() <= 1
                 && timeline != null;
     }
 

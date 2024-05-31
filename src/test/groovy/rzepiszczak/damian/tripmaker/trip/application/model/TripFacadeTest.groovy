@@ -10,11 +10,11 @@ import rzepiszczak.damian.tripmaker.trip.application.model.events.*
 import rzepiszczak.damian.tripmaker.trip.infrastructure.persistence.TripPersistenceConfiguration
 import spock.lang.Specification
 
-import java.time.LocalDateTime
+import java.time.LocalDate
 
 class TripFacadeTest extends Specification {
 
-    private LocalDateTime someDay = LocalDateTime.of(2024, 5, 15, 0, 0)
+    private LocalDate someDay = LocalDate.of(2024, 5, 15)
     private TravelerId travelerId = TravelerId.from(UUID.randomUUID())
     private TripPersistenceConfiguration configuration = new TripPersistenceConfiguration()
     private Trips trips = configuration.tripRepository()

@@ -5,12 +5,12 @@ import rzepiszczak.damian.tripmaker.trip.application.model.events.*
 import spock.lang.Specification
 import spock.lang.Subject
 
-import java.time.LocalDateTime
+import java.time.LocalDate
 import java.time.Month
 
 class TripTest extends Specification {
 
-    private LocalDateTime from = LocalDateTime.of(2024, Month.MAY, 3, 0, 0)
+    private LocalDate from = LocalDate.of(2024, Month.MAY, 3)
     @Subject
     private Trip trip = new Trip(TripId.from(UUID.randomUUID()), TravelerId.from(UUID.randomUUID()), Destination.of("Madeira"), Period.from(from, from.plusDays(2)))
 
@@ -113,7 +113,7 @@ class TripTest extends Specification {
 
     def 'cannot reschedule trip period if different amount of days'() {
         given:
-            LocalDateTime newFrom = LocalDateTime.of(2024, 5, 27, 0, 0, 0)
+            LocalDate newFrom = LocalDate.of(2024, 5, 27)
             Period newPeriod = Period.from(newFrom, newFrom.plusDays(3))
         when:
             trip.reschedule(newPeriod)

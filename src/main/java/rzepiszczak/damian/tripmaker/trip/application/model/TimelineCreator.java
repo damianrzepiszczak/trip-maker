@@ -12,7 +12,7 @@ class TimelineCreator {
 
     static Timeline create(AssignPlanCommand request) {
         List<Timeline.DayActivity> activities = new ArrayList<>();
-        request.getDetails().forEach((day, information) -> activities.add(new Timeline.DayActivity(day, information.attractions(), information.note())));
+        request.getDetails().forEach((day, information) -> activities.add(new Timeline.DayActivity(day, information.note(), information.attractions())));
         return new Timeline(activities);
     }
 }

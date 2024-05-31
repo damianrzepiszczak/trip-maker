@@ -29,6 +29,13 @@ class Timeline {
         dayActivity.attractions.add(attraction);
     }
 
+    void scheduleForPeriod(Period period) {
+        long amountOfDaysToSchedule = period.howManyDays();
+        for (int dayNumber = 0; dayNumber < amountOfDaysToSchedule; dayNumber++) {
+            activities.get(dayNumber).day = period.getFrom().plusDays(dayNumber);
+        }
+    }
+
     private DayActivity getDayActivity(LocalDate day) {
         Optional<DayActivity> found = activities.stream()
                 .filter(dayActivity -> dayActivity.day.equals(day))
@@ -36,15 +43,11 @@ class Timeline {
         return found.orElseThrow(() -> new DomainException("Cannot find " + day + " activity"));
     }
 
-    List<DayActivity> activities() {
-        return Collections.unmodifiableList(activities);
-    }
-
     @AllArgsConstructor
     static class DayActivity {
-        private final LocalDate day;
-        private final List<String> attractions;
+        private LocalDate day;
         private String note;
+        private final List<String> attractions;
     }
 
     @RequiredArgsConstructor

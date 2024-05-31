@@ -1,7 +1,7 @@
 package rzepiszczak.damian.tripmaker.common;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 public interface Clock {
-    LocalDateTime now();
+    LocalDate now();
 }
