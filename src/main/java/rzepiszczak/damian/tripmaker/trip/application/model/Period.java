@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 
 @Getter
@@ -18,5 +19,9 @@ class Period {
             return new Period(from, to);
         }
         throw new IllegalStateException("Cannot create trip with from date which is after to date");
+    }
+
+    long howManyDays() {
+        return Duration.between(from, to).toDays();
     }
 }

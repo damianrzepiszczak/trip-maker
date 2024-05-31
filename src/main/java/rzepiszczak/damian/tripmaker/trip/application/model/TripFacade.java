@@ -29,7 +29,7 @@ class TripFacade implements TripService {
     public void assignPlan(AssignPlanCommand command) {
         Optional<Trip> found = trips.findById(command.getTripId());
         found.ifPresent(trip -> {
-            trip.assign(TimelineCreator.create(command));
+            trip.assignTimeline(TimelineCreator.create(command));
             domainEventPublisher.publish(trip.domainEvents());
         });
     }

@@ -9,6 +9,7 @@ import rzepiszczak.damian.tripmaker.common.exception.DomainException;
 import rzepiszczak.damian.tripmaker.trip.application.model.events.*;
 
 import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -18,7 +19,7 @@ import static rzepiszczak.damian.tripmaker.trip.application.model.Trip.Stage.*;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class Trip extends AggregateRoot<TripId> {
 
-    enum Stage {PLANNING, STARTED, FINISHED, CANCELLED}
+    enum Stage {INCOMING, STARTED, FINISHED, CANCELLED}
 
     @Getter
     private TravelerId travelerId;
@@ -33,7 +34,7 @@ public class Trip extends AggregateRoot<TripId> {
         this.destination = destination;
         this.period = period;
         this.travelerId = travelerId;
-        stage = PLANNING;
+        stage = INCOMING;
         registerEvent(new TripCreated(id.getId()));
     }
 
@@ -49,6 +50,13 @@ public class Trip extends AggregateRoot<TripId> {
         return (now.isBefore(period.getFrom()) || now.isEqual(period.getFrom()))
                 && Duration.between(now, period.getFrom()).toDays() <= 1
                 && timeline != null;
+    }
+
+    void reschedule(Period newPeriod) {
+        if (newPeriod.howManyDays() != period.howManyDays()) {
+            throw new DomainException("New Period has different amount of days");
+        }
+        this.period = newPeriod;
     }
 
     void finish() {
@@ -74,9 +82,20 @@ public class Trip extends AggregateRoot<TripId> {
         registerEvent(new TripShared(id));
     }
 
-    void assign(Timeline timeline) {
+    void assignTimeline(Timeline timeline) {
         this.timeline = timeline;
         registerEvent(new TimelineCreated(id));
+    }
+
+    void modifyDayNote(LocalDate day, String note) {
+        timeline.modifyNote(day, note);
+    }
+
+    void addNewAttraction(LocalDate day, String attraction) {
+        if (stage != INCOMING) {
+            throw new DomainException("Cannot add new attraction for started trip");
+        }
+        timeline.addNewAttraction(day, attraction);
     }
 
     @Override

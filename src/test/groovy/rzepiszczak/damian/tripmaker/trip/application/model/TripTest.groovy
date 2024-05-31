@@ -16,7 +16,7 @@ class TripTest extends Specification {
 
     def 'can start max one day before from date'() {
         given: 'new timeline created'
-            trip.assign(new Timeline(List.of()))
+            trip.assignTimeline(new Timeline(List.of()))
         when: 'start trip one day before'
             trip.start(from.minusDays(1))
         then: 'trip was created and started'
@@ -35,7 +35,7 @@ class TripTest extends Specification {
         given:
             Timeline plan = new Timeline(List.of())
         and:
-            trip.assign(plan)
+            trip.assignTimeline(plan)
         when:
             trip.start(from)
         then:
@@ -52,7 +52,7 @@ class TripTest extends Specification {
 
     def 'can finish started trip'() {
         given:
-            trip.assign(new Timeline(List.of()))
+            trip.assignTimeline(new Timeline(List.of()))
         and:
             trip.start(from)
         expect:
@@ -77,7 +77,7 @@ class TripTest extends Specification {
 
     def 'should not cancel started trip'() {
         given:
-            trip.assign(new Timeline(List.of()))
+            trip.assignTimeline(new Timeline(List.of()))
         when:
             trip.start(from)
             trip.cancel()
@@ -88,7 +88,7 @@ class TripTest extends Specification {
 
     def 'can share finished trip'() {
         given:
-            trip.assign(new Timeline(List.of()))
+            trip.assignTimeline(new Timeline(List.of()))
         and:
             trip.start(from)
         and:
@@ -101,7 +101,7 @@ class TripTest extends Specification {
 
     def 'cannot share not finished trip'() {
         given:
-            trip.assign(new Timeline(List.of()))
+            trip.assignTimeline(new Timeline(List.of()))
         and:
             trip.start(from)
         when:
@@ -109,5 +109,16 @@ class TripTest extends Specification {
         then:
             DomainException exception = thrown()
             exception.message == "Cannot share not finished trip"
+    }
+
+    def 'cannot reschedule trip period if different amount of days'() {
+        given:
+            LocalDateTime newFrom = LocalDateTime.of(2024, 5, 27, 0, 0, 0)
+            Period newPeriod = Period.from(newFrom, newFrom.plusDays(3))
+        when:
+            trip.reschedule(newPeriod)
+        then:
+            DomainException exception = thrown()
+            exception.message == "New Period has different amount of days"
     }
 }
