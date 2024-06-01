@@ -50,9 +50,4 @@ class TripFacade implements TripService {
             domainEventPublisher.publish(trip.domainEvents());
         });
     }
-
-    @Override
-    public void share(TripId tripId) {
-        trips.findById(tripId).ifPresent(Trip::share);
-    }
 }

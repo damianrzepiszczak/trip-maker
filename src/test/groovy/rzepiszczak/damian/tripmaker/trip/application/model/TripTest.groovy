@@ -86,29 +86,14 @@ class TripTest extends Specification {
             exception.message == "Cannot cancel started trip"
     }
 
-    def 'can share finished trip'() {
+    def 'should reschedule trip period if new period has same amount of days and trip is incoming'() {
         given:
-            trip.assignTimeline(new Timeline(List.of()))
-        and:
-            trip.start(from)
-        and:
-            trip.finish()
+            LocalDate newFrom = LocalDate.of(2024, 5, 27)
+            Period newPeriod = Period.from(newFrom, newFrom.plusDays(2))
         when:
-            trip.share()
+            trip.reschedule(newPeriod)
         then:
-            trip.domainEvents()*.class == [TripCreated, TimelineCreated, TripStarted, TripFinished, TripShared]
-    }
-
-    def 'cannot share not finished trip'() {
-        given:
-            trip.assignTimeline(new Timeline(List.of()))
-        and:
-            trip.start(from)
-        when:
-            trip.share()
-        then:
-            DomainException exception = thrown()
-            exception.message == "Cannot share not finished trip"
+            trip.domainEvents()*.class == [TripCreated, TripTimelineRescheduled]
     }
 
     def 'cannot reschedule trip period if different amount of days'() {

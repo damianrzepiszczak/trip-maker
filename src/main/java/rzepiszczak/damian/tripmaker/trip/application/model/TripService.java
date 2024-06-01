@@ -8,5 +8,4 @@ public interface TripService {
     void assignPlan(AssignPlanCommand command);
     void start(TripId tripId);
     void finish(TripId tripId);
-    void share(TripId tripId);
 }

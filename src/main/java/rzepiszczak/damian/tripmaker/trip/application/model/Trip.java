@@ -3,7 +3,6 @@ package rzepiszczak.damian.tripmaker.trip.application.model;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 import rzepiszczak.damian.tripmaker.common.AggregateRoot;
 import rzepiszczak.damian.tripmaker.common.exception.DomainException;
 import rzepiszczak.damian.tripmaker.trip.application.model.events.*;
@@ -13,7 +12,6 @@ import java.util.Objects;
 
 import static rzepiszczak.damian.tripmaker.trip.application.model.Trip.Stage.*;
 
-@ToString
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class Trip extends AggregateRoot<TripId> {
 
@@ -51,10 +49,14 @@ public class Trip extends AggregateRoot<TripId> {
     }
 
     void reschedule(Period newPeriod) {
-        if (newPeriod.howManyDays() != period.howManyDays()) {
+        if (stage != INCOMING || newPeriod.howManyDays() != period.howManyDays()) {
             throw new DomainException("New Period has different amount of days");
         }
         this.period = newPeriod;
+        if (timeline != null) {
+            timeline.scheduleForPeriod(newPeriod);
+        }
+        registerEvent(new TripTimelineRescheduled(id));
     }
 
     void finish() {
@@ -71,13 +73,6 @@ public class Trip extends AggregateRoot<TripId> {
         }
         stage = CANCELLED;
         registerEvent(new TripCanceled(id));
-    }
-
-    void share() {
-        if (stage != FINISHED) {
-            throw new DomainException("Cannot share not finished trip");
-        }
-        registerEvent(new TripShared(id));
     }
 
     void assignTimeline(Timeline timeline) {

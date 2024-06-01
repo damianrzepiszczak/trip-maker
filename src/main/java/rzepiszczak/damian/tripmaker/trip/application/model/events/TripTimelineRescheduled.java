@@ -5,6 +5,6 @@ import rzepiszczak.damian.tripmaker.common.event.DomainEvent;
 import rzepiszczak.damian.tripmaker.trip.application.model.TripId;
 
 @RequiredArgsConstructor
-public class TripShared implements DomainEvent {
+public class TripTimelineRescheduled implements DomainEvent {
     private final TripId tripId;
 }
