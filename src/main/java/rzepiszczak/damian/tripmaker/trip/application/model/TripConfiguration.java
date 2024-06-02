@@ -12,6 +12,6 @@ class TripConfiguration {
 
     @Bean
     TripService tripService(Trips trips) {
-        return new TripFacade(trips, new MockClock(LocalDate.now()), new TripFactory(trips), new SimpleForwardDomainEventPublisher());
+        return new TripManagement(trips, new MockClock(LocalDate.now()), new TripFactory(trips), new SimpleForwardDomainEventPublisher());
     }
 }

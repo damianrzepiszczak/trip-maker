@@ -9,7 +9,7 @@ import rzepiszczak.damian.tripmaker.trip.application.model.commands.CreateNewTri
 import java.util.Optional;
 
 @RequiredArgsConstructor
-class TripFacade implements TripService {
+class TripManagement implements TripService {
 
     private final Trips trips;
     private final Clock clock;

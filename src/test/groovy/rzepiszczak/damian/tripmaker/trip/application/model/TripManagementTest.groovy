@@ -10,14 +10,14 @@ import spock.lang.Specification
 
 import java.time.LocalDate
 
-class TripFacadeTest extends Specification {
+class TripManagementTest extends Specification {
 
     private LocalDate someDay = LocalDate.of(2024, 5, 15)
     private TravelerId travelerId = TravelerId.from(UUID.randomUUID())
     private TripPersistenceConfiguration configuration = new TripPersistenceConfiguration()
     private Trips trips = configuration.tripRepository()
     private DomainEventPublisher domainEventPublisher = Mock()
-    private TripService tripService = new TripFacade(trips, new MockClock(someDay), new TripFactory(trips), domainEventPublisher)
+    private TripService tripService = new TripManagement(trips, new MockClock(someDay), new TripFactory(trips), domainEventPublisher)
 
     def 'should create trip after choosing destination and period'() {
         when: 'for given destination and period create trip'

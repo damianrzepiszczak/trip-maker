@@ -17,7 +17,7 @@ class AssignPlanTest extends Specification {
     private LocalDate someDay = LocalDate.of(2024, 5, 15)
     private TripPersistenceConfiguration configuration = new TripPersistenceConfiguration()
     private Trips trips = configuration.tripRepository()
-    private TripService tripService = new TripFacade(trips, new MockClock(someDay), new TripFactory(trips), new SimpleForwardDomainEventPublisher())
+    private TripService tripService = new TripManagement(trips, new MockClock(someDay), new TripFactory(trips), new SimpleForwardDomainEventPublisher())
 
     def 'create new timeline based on plan details'() {
         given: 'traveler want to organize Dubai trip based on sample plan details'
