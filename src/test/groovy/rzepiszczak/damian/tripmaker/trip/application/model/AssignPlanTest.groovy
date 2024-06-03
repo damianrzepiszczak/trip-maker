@@ -4,6 +4,7 @@ import rzepiszczak.damian.tripmaker.common.MockClock
 import rzepiszczak.damian.tripmaker.common.event.SimpleForwardDomainEventPublisher
 import rzepiszczak.damian.tripmaker.trip.application.model.commands.AssignPlanCommand
 import rzepiszczak.damian.tripmaker.trip.application.model.commands.CreateNewTripCommand
+import rzepiszczak.damian.tripmaker.trip.application.model.commands.DayInformation
 import rzepiszczak.damian.tripmaker.trip.application.model.events.TimelineCreated
 import rzepiszczak.damian.tripmaker.trip.application.model.events.TripCreated
 import rzepiszczak.damian.tripmaker.trip.application.model.events.TripStarted
@@ -26,7 +27,7 @@ class AssignPlanTest extends Specification {
             TripId tripId = tripService.create(new CreateNewTripCommand(travelerId, "Dubai", someDay, someDay.plusDays(1)))
         when: 'assign plan'
             AssignPlanCommand assignPlanCommand = new AssignPlanCommand(tripId)
-            assignPlanCommand.addDetail(someDay, new AssignPlanCommand.DayInformation("First day activities", List.of("Deira")))
+            assignPlanCommand.addDetail(someDay, new DayInformation("First day activities in Dubai", List.of("Deira")))
             tripService.assignPlan(assignPlanCommand)
         then: 'timeline was created and trip can be started'
             tripService.start(tripId)

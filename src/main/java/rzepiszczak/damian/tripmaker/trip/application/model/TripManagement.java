@@ -29,7 +29,7 @@ class TripManagement implements TripService {
     public void assignPlan(AssignPlanCommand command) {
         Optional<Trip> found = trips.findById(command.getTripId());
         found.ifPresent(trip -> {
-            trip.assignTimeline(TimelineCreator.create(command));
+            trip.generateTimeline(command.getDetails());
             domainEventPublisher.publish(trip.domainEvents());
         });
     }

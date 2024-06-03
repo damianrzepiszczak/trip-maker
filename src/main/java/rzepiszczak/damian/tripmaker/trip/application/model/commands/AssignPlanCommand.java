@@ -7,7 +7,6 @@ import rzepiszczak.damian.tripmaker.trip.application.model.TripId;
 
 import java.time.LocalDate;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Getter
@@ -19,8 +18,5 @@ public class AssignPlanCommand {
 
     public void addDetail(LocalDate time, DayInformation information) {
         details.put(time, information);
-    }
-
-    public record DayInformation(String note, List<String> attractions) {
     }
 }

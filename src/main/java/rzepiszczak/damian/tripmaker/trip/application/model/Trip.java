@@ -5,10 +5,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import rzepiszczak.damian.tripmaker.common.AggregateRoot;
 import rzepiszczak.damian.tripmaker.common.exception.DomainException;
+import rzepiszczak.damian.tripmaker.trip.application.model.commands.DayInformation;
 import rzepiszczak.damian.tripmaker.trip.application.model.events.*;
 
 import java.time.LocalDate;
-import java.util.Objects;
+import java.util.*;
 
 import static rzepiszczak.damian.tripmaker.trip.application.model.Trip.Stage.*;
 
@@ -23,7 +24,7 @@ public class Trip extends AggregateRoot<TripId> {
     private Destination destination;
     private Period period;
     private Stage stage;
-    private Timeline timeline;
+    private List<TripDay> timeline;
 
     Trip(TripId tripId, TravelerId travelerId, Destination destination, Period period) {
         this.id = tripId;
@@ -54,9 +55,16 @@ public class Trip extends AggregateRoot<TripId> {
         }
         this.period = newPeriod;
         if (timeline != null) {
-            timeline.scheduleForPeriod(newPeriod);
+            scheduleForPeriod(newPeriod);
         }
         registerEvent(new TripTimelineRescheduled(id));
+    }
+
+    private void scheduleForPeriod(Period period) {
+        long amountOfDaysToSchedule = period.howManyDays();
+        for (int dayNumber = 0; dayNumber < amountOfDaysToSchedule; dayNumber++) {
+            timeline.get(dayNumber).changeDayDate(period.getFrom().plusDays(dayNumber));
+        }
     }
 
     void finish() {
@@ -75,20 +83,30 @@ public class Trip extends AggregateRoot<TripId> {
         registerEvent(new TripCanceled(id));
     }
 
-    void assignTimeline(Timeline timeline) {
-        this.timeline = timeline;
+    void generateTimeline(Map<LocalDate, DayInformation> details) {
+        timeline = new ArrayList<>();
+        details.forEach((day, information) -> timeline.add(new TripDay(day, information.getNote(), information.getAttractions())));
         registerEvent(new TimelineCreated(id));
     }
 
     void modifyDayNote(LocalDate day, String note) {
-        timeline.modifyNote(day, note);
+        TripDay tripDay = getTripDay(day);
+        tripDay.modifyNote(note);
     }
 
     void addNewAttraction(LocalDate day, String attraction) {
         if (stage != INCOMING) {
             throw new DomainException("Cannot add new attraction for started trip");
         }
-        timeline.addNewAttraction(day, attraction);
+        TripDay tripDay = getTripDay(day);
+        tripDay.newDatAttraction(attraction);
+    }
+
+    private TripDay getTripDay(LocalDate day) {
+        Optional<TripDay> found = timeline.stream().
+                filter(tripDay -> tripDay.getDay().equals(day))
+                .findFirst();
+        return found.orElseThrow(() -> new DomainException("Cannot find " + day + " activity"));
     }
 
     @Override

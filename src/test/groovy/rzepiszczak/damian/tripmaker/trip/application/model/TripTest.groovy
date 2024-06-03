@@ -16,7 +16,7 @@ class TripTest extends Specification {
 
     def 'can start max one day before from date'() {
         given: 'new timeline created'
-            trip.assignTimeline(new Timeline(List.of()))
+            trip.generateTimeline(Map.of())
         when: 'start trip one day before'
             trip.start(from.minusDays(1))
         then: 'trip was created and started'
@@ -32,11 +32,8 @@ class TripTest extends Specification {
     }
 
     def 'can start if timeline assigned'() {
-        given:
-            Timeline plan = new Timeline(List.of())
-        and:
-            trip.assignTimeline(plan)
         when:
+            trip.generateTimeline(Map.of())
             trip.start(from)
         then:
             trip.domainEvents()*.class == [TripCreated, TimelineCreated, TripStarted]
@@ -52,7 +49,7 @@ class TripTest extends Specification {
 
     def 'can finish started trip'() {
         given:
-            trip.assignTimeline(new Timeline(List.of()))
+            trip.generateTimeline(Map.of())
         and:
             trip.start(from)
         expect:
@@ -77,7 +74,7 @@ class TripTest extends Specification {
 
     def 'should not cancel started trip'() {
         given:
-            trip.assignTimeline(new Timeline(List.of()))
+            trip.generateTimeline(Map.of())
         when:
             trip.start(from)
             trip.cancel()
