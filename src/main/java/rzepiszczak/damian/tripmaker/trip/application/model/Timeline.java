@@ -12,39 +12,39 @@ class Timeline {
 
     @Getter
     private final TimelineId timelineId;
-    private final List<DayActivity> activities;
+    private final List<TripDay> tripDays;
 
-    Timeline(List<DayActivity> activities) {
-        this.activities = activities;
+    Timeline(List<TripDay> tripDays) {
+        this.tripDays = tripDays;
         this.timelineId = new TimelineId(UUID.randomUUID().toString());
     }
 
     void modifyNote(LocalDate day, String note) {
-        DayActivity activity = getDayActivity(day);
+        TripDay activity = getDayActivity(day);
         activity.note = note;
     }
 
     void addNewAttraction(LocalDate day, String attraction) {
-        DayActivity dayActivity = getDayActivity(day);
-        dayActivity.attractions.add(attraction);
+        TripDay tripDay = getDayActivity(day);
+        tripDay.attractions.add(attraction);
     }
 
     void scheduleForPeriod(Period period) {
         long amountOfDaysToSchedule = period.howManyDays();
         for (int dayNumber = 0; dayNumber < amountOfDaysToSchedule; dayNumber++) {
-            activities.get(dayNumber).day = period.getFrom().plusDays(dayNumber);
+            tripDays.get(dayNumber).day = period.getFrom().plusDays(dayNumber);
         }
     }
 
-    private DayActivity getDayActivity(LocalDate day) {
-        Optional<DayActivity> found = activities.stream()
-                .filter(dayActivity -> dayActivity.day.equals(day))
+    private TripDay getDayActivity(LocalDate day) {
+        Optional<TripDay> found = tripDays.stream()
+                .filter(tripDay -> tripDay.day.equals(day))
                 .findFirst();
         return found.orElseThrow(() -> new DomainException("Cannot find " + day + " activity"));
     }
 
     @AllArgsConstructor
-    static class DayActivity {
+    static class TripDay {
         private LocalDate day;
         private String note;
         private final List<String> attractions;

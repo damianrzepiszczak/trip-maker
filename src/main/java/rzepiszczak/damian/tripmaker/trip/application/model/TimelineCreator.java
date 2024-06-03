@@ -10,9 +10,10 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 class TimelineCreator {
 
-    static Timeline create(AssignPlanCommand request) {
-        List<Timeline.DayActivity> activities = new ArrayList<>();
-        request.getDetails().forEach((day, information) -> activities.add(new Timeline.DayActivity(day, information.note(), information.attractions())));
-        return new Timeline(activities);
+    static Timeline create(AssignPlanCommand assignPlanCommand) {
+        List<Timeline.TripDay> tripDays = new ArrayList<>();
+        assignPlanCommand.getDetails()
+                .forEach((day, information) -> tripDays.add(new Timeline.TripDay(day, information.note(), information.attractions())));
+        return new Timeline(tripDays);
     }
 }
