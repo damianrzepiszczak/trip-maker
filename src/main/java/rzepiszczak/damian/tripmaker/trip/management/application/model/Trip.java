@@ -47,7 +47,7 @@ public class Trip extends AggregateRoot<TripId> {
     private boolean canStart(LocalDate now) {
         return (now.isBefore(period.getFrom()) || now.isEqual(period.getFrom()))
                 && java.time.Period.between(now, period.getFrom()).getDays() <= 1
-                && timeline != null;
+                && isTimelineGenerated();
     }
 
     void reschedule(Period newPeriod) {
@@ -55,7 +55,7 @@ public class Trip extends AggregateRoot<TripId> {
             throw new DomainException("New Period has different amount of days");
         }
         this.period = newPeriod;
-        if (timeline != null) {
+        if (isTimelineGenerated()) {
             scheduleForPeriod(newPeriod);
         }
         registerEvent(new TripTimelineRescheduled(id));
@@ -109,6 +109,10 @@ public class Trip extends AggregateRoot<TripId> {
                 filter(tripDay -> tripDay.getDay().equals(day))
                 .findFirst();
         return found.orElseThrow(() -> new DomainException("Cannot find " + day + " activity"));
+    }
+
+    private boolean isTimelineGenerated() {
+        return timeline != null;
     }
 
     @Override
