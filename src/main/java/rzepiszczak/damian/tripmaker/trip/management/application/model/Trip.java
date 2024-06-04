@@ -10,6 +10,7 @@ import rzepiszczak.damian.tripmaker.trip.management.application.model.events.*;
 
 import java.time.LocalDate;
 import java.util.*;
+import java.util.stream.IntStream;
 
 import static rzepiszczak.damian.tripmaker.trip.management.application.model.Trip.Stage.*;
 
@@ -61,10 +62,11 @@ public class Trip extends AggregateRoot<TripId> {
     }
 
     private void scheduleForPeriod(Period period) {
-        long amountOfDaysToSchedule = period.howManyDays();
-        for (int dayNumber = 0; dayNumber < amountOfDaysToSchedule; dayNumber++) {
-            timeline.get(dayNumber).changeDayDate(period.getFrom().plusDays(dayNumber));
-        }
+        int amountOfDaysToSchedule = period.howManyDays();
+        IntStream.range(0, amountOfDaysToSchedule).forEach(dayNumber -> {
+            TripDay tripDay = timeline.get(dayNumber);
+            tripDay.changeDayDate(period.getFrom().plusDays(dayNumber));
+        });
     }
 
     void finish() {

@@ -20,7 +20,7 @@ class Period {
         throw new IllegalStateException("Cannot create trip with from date which is after to date");
     }
 
-    long howManyDays() {
+    int howManyDays() {
         return java.time.Period.between(from, to).getDays();
     }
 }
