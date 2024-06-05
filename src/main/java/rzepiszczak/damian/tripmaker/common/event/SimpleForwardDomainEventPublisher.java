@@ -1,17 +1,17 @@
 package rzepiszczak.damian.tripmaker.common.event;
 
-import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 
-import java.util.ArrayList;
 import java.util.List;
 
-@Getter
+@RequiredArgsConstructor
 public class SimpleForwardDomainEventPublisher implements DomainEventPublisher {
 
-    private final List<DomainEvent> events = new ArrayList<>();
+    private final ApplicationEventPublisher applicationEventPublisher;
 
     @Override
     public void publish(List<DomainEvent> toPublish) {
-        events.addAll(toPublish);
+        toPublish.forEach(applicationEventPublisher::publishEvent);
     }
 }

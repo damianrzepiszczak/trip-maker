@@ -1,5 +1,6 @@
 package rzepiszczak.damian.tripmaker.trip.management.application.model;
 
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import rzepiszczak.damian.tripmaker.common.MockClock;
@@ -11,7 +12,7 @@ import java.time.LocalDate;
 class TripConfiguration {
 
     @Bean
-    TripService tripService(Trips trips) {
-        return new TripManagement(trips, new MockClock(LocalDate.now()), new TripFactory(trips), new SimpleForwardDomainEventPublisher());
+    TripService tripService(Trips trips, ApplicationEventPublisher applicationEventPublisher) {
+        return new TripManagement(trips, new MockClock(LocalDate.now()), new TripFactory(trips), new SimpleForwardDomainEventPublisher(applicationEventPublisher));
     }
 }

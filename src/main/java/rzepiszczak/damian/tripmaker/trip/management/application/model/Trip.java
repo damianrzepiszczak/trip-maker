@@ -33,7 +33,7 @@ public class Trip extends AggregateRoot<TripId> {
         this.period = period;
         this.travelerId = travelerId;
         stage = INCOMING;
-        registerEvent(new TripCreated(id.getId()));
+        registerEvent(new TripCreated(id.getId(), period.getFrom(), period.getTo()));
     }
 
     void start(LocalDate startedAt) {

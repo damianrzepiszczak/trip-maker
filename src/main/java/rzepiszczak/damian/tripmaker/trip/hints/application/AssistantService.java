@@ -1,10 +1,17 @@
 package rzepiszczak.damian.tripmaker.trip.hints.application;
 
-class AssistantService {
+import lombok.RequiredArgsConstructor;
 
-    void generateInitialHints() {}
+import java.util.UUID;
 
-    void generateDailyHints() {}
+@RequiredArgsConstructor
+public class AssistantService {
 
-    void generateFinalHints() {}
+    private final Assistants assistants;
+
+    AssistantId createAssistanceForNewTrip(CreateNewAssistantCommand createNewAssistantCommand) {
+        Assistant assistant = new Assistant(AssistantId.from(UUID.randomUUID()), createNewAssistantCommand.getTripStart(), createNewAssistantCommand.getTripEnd());
+        assistants.create(assistant);
+        return assistant.getId();
+    }
 }
