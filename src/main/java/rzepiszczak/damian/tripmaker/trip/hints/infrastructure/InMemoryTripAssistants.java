@@ -1,8 +1,8 @@
 package rzepiszczak.damian.tripmaker.trip.hints.infrastructure;
 
-import rzepiszczak.damian.tripmaker.trip.hints.application.Assistant;
-import rzepiszczak.damian.tripmaker.trip.hints.application.AssistantId;
-import rzepiszczak.damian.tripmaker.trip.hints.application.Assistants;
+import rzepiszczak.damian.tripmaker.trip.hints.application.model.Assistant;
+import rzepiszczak.damian.tripmaker.trip.hints.application.model.AssistantId;
+import rzepiszczak.damian.tripmaker.trip.hints.application.model.Assistants;
 
 import java.util.ArrayList;
 import java.util.List;

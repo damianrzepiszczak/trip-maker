@@ -2,7 +2,7 @@ package rzepiszczak.damian.tripmaker.trip.hints.infrastructure;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import rzepiszczak.damian.tripmaker.trip.hints.application.Assistants;
+import rzepiszczak.damian.tripmaker.trip.hints.application.model.Assistants;
 
 @Configuration
 public class AssistanceRepositoryConfiguration {

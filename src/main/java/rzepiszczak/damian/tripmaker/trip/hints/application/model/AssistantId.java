@@ -1,4 +1,4 @@
-package rzepiszczak.damian.tripmaker.trip.hints.application;
+package rzepiszczak.damian.tripmaker.trip.hints.application.model;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

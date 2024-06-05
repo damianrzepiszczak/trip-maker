@@ -12,6 +12,7 @@ public class SimpleForwardDomainEventPublisher implements DomainEventPublisher {
 
     @Override
     public void publish(List<DomainEvent> toPublish) {
+        System.out.println(toPublish);
         toPublish.forEach(applicationEventPublisher::publishEvent);
     }
 }
