@@ -86,4 +86,17 @@ class TripManagementTest extends Specification {
             Trip trip = trips.findTravelerTrips(travelerId)[0]
             trip.domainEvents()*.class == [TripCreated, TimelineCreated, TripStarted]
     }
+
+    def 'generate initial hint whenever new trip created'() {
+        given:
+            TravelerId travelerId = TravelerId.from(UUID.randomUUID())
+         when: 'traveler creates new trip'
+            TripId tripId = tripService.create(new CreateNewTripCommand(travelerId, "Paris", someDay, someDay.plusDays(5)))
+         then: 'initial hints are generated'
+            Trip trip = trips.findById(tripId).get()
+            List<Hint> hints = trip.hints()
+            hints.size() == 1
+          and:
+            hints[0].getContent() == "New trip to Paris was created. We will push new hints soon to improve your dreams"
+    }
 }

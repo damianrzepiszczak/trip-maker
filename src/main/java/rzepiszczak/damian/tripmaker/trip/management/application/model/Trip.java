@@ -22,6 +22,7 @@ public class Trip extends AggregateRoot<TripId> {
     private Period period;
     private TripStatus status;
     private List<TripDay> timeline;
+    private List<Hint> hints;
 
     Trip(TripId tripId, TravelerId travelerId, Destination destination, Period period) {
         this.id = tripId;
@@ -29,6 +30,8 @@ public class Trip extends AggregateRoot<TripId> {
         this.period = period;
         this.travelerId = travelerId;
         this.status = TripStatus.INCOMING;
+        this.hints = new ArrayList<>();
+        generateHint("New trip to " + destination.getDestination() + " was created. We will push new hints soon to improve your dreams");
         registerEvent(new TripCreated(id.getId(), period.getFrom(), period.getTo()));
     }
 
@@ -98,6 +101,14 @@ public class Trip extends AggregateRoot<TripId> {
         }
         TripDay tripDay = getTripDay(day);
         tripDay.newDatAttraction(attraction);
+    }
+
+    void generateHint(String content) {
+        hints.add(new Hint(content));
+    }
+
+    List<Hint> hints() {
+        return Collections.unmodifiableList(hints);
     }
 
     private TripDay getTripDay(LocalDate day) {
