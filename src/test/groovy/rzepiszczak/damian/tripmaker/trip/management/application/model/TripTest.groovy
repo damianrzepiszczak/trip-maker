@@ -17,7 +17,7 @@ class TripTest extends Specification {
 
     private LocalDate from = LocalDate.of(2024, Month.MAY, 3)
     @Subject
-    private Trip trip = new Trip(TripId.from(UUID.randomUUID()), TravelerId.from(UUID.randomUUID()), Destination.of("Madeira"), Period.from(from, from.plusDays(2)))
+    private Trip trip = new Trip(TripId.from(UUID.randomUUID()), TravelerId.from(UUID.randomUUID()), Destination.of("Madeira"), TripPeriod.from(from, from.plusDays(2)))
 
     def 'can start max one day before from date'() {
         given: 'new timeline created'
@@ -91,7 +91,7 @@ class TripTest extends Specification {
     def 'should reschedule trip period if new period has same amount of days and trip is incoming'() {
         given:
             LocalDate newFrom = LocalDate.of(2024, 5, 27)
-            Period newPeriod = Period.from(newFrom, newFrom.plusDays(2))
+            TripPeriod newPeriod = TripPeriod.from(newFrom, newFrom.plusDays(2))
         when:
             trip.reschedule(newPeriod)
         then:
@@ -101,7 +101,7 @@ class TripTest extends Specification {
     def 'cannot reschedule trip period if different amount of days'() {
         given:
             LocalDate newFrom = LocalDate.of(2024, 5, 27)
-            Period newPeriod = Period.from(newFrom, newFrom.plusDays(3))
+            TripPeriod newPeriod = TripPeriod.from(newFrom, newFrom.plusDays(3))
         when:
             trip.reschedule(newPeriod)
         then:

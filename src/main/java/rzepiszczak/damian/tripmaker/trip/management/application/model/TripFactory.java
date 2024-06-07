@@ -13,7 +13,7 @@ class TripFactory {
 
     Trip create(TravelerId travelerId, String destination, LocalDate from, LocalDate to) {
         if (notExistsWithSameDestination(travelerId, destination)) {
-            return new Trip(TripId.from(UUID.randomUUID()), travelerId, Destination.of(destination), Period.from(from, to));
+            return new Trip(TripId.from(UUID.randomUUID()), travelerId, Destination.of(destination), TripPeriod.from(from, to));
         }
         throw new DomainException("Trying to create trip with the same destination");
     }

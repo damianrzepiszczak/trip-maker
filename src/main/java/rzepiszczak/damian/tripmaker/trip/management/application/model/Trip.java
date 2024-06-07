@@ -9,6 +9,7 @@ import rzepiszczak.damian.tripmaker.trip.management.application.model.commands.D
 import rzepiszczak.damian.tripmaker.trip.management.application.model.events.*;
 
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.*;
 import java.util.stream.IntStream;
 
@@ -19,20 +20,20 @@ public class Trip extends AggregateRoot<TripId> {
     private TravelerId travelerId;
     @Getter
     private Destination destination;
-    private Period period;
+    private TripPeriod period;
     private TripStatus status;
     private List<TripDay> timeline;
     private List<Hint> hints;
 
-    Trip(TripId tripId, TravelerId travelerId, Destination destination, Period period) {
+    Trip(TripId tripId, TravelerId travelerId, Destination destination, TripPeriod tripPeriod) {
         this.id = tripId;
         this.destination = destination;
-        this.period = period;
+        this.period = tripPeriod;
         this.travelerId = travelerId;
         this.status = TripStatus.INCOMING;
         this.hints = new ArrayList<>();
         generateHint("New trip to " + destination.getDestination() + " was created. We will push new hints soon to improve your dreams");
-        registerEvent(new TripCreated(id.getId(), period.getFrom(), period.getTo()));
+        registerEvent(new TripCreated(id.getId(), tripPeriod.getFrom(), tripPeriod.getTo()));
     }
 
     void start(LocalDate startedAt) {
@@ -45,26 +46,26 @@ public class Trip extends AggregateRoot<TripId> {
 
     private boolean canStart(LocalDate now) {
         return (now.isBefore(period.getFrom()) || now.isEqual(period.getFrom()))
-                && java.time.Period.between(now, period.getFrom()).getDays() <= 1
+                && Period.between(now, period.getFrom()).getDays() <= 1
                 && isTimelineGenerated();
     }
 
-    void reschedule(Period newPeriod) {
-        if (status != TripStatus.INCOMING || newPeriod.howManyDays() != period.howManyDays()) {
+    void reschedule(TripPeriod newTripPeriod) {
+        if (status != TripStatus.INCOMING || newTripPeriod.howManyDays() != period.howManyDays()) {
             throw new DomainException("New Period has different amount of days");
         }
-        this.period = newPeriod;
+        this.period = newTripPeriod;
         if (isTimelineGenerated()) {
-            scheduleForPeriod(newPeriod);
+            scheduleForPeriod(newTripPeriod);
         }
         registerEvent(new TripTimelineRescheduled(id));
     }
 
-    private void scheduleForPeriod(Period period) {
-        int amountOfDaysToSchedule = period.howManyDays();
+    private void scheduleForPeriod(TripPeriod tripPeriod) {
+        int amountOfDaysToSchedule = tripPeriod.howManyDays();
         IntStream.range(0, amountOfDaysToSchedule).forEach(dayNumber -> {
             TripDay tripDay = timeline.get(dayNumber);
-            tripDay.changeDayDate(period.getFrom().plusDays(dayNumber));
+            tripDay.changeDayDate(tripPeriod.getFrom().plusDays(dayNumber));
         });
     }
 
