@@ -32,7 +32,6 @@ public class Trip extends AggregateRoot<TripId> {
         this.travelerId = travelerId;
         this.status = TripStatus.INCOMING;
         this.hints = new ArrayList<>();
-        generateHint("New trip to " + destination.getDestination() + " was created. We will push new hints soon to improve your dreams");
         registerEvent(new TripCreated(id.getId(), tripPeriod.getFrom(), tripPeriod.getTo()));
     }
 
@@ -104,8 +103,8 @@ public class Trip extends AggregateRoot<TripId> {
         tripDay.newDatAttraction(attraction);
     }
 
-    void generateHint(String content) {
-        hints.add(new Hint(content));
+    void publishHint(Hint hint) {
+        hints.add(hint);
     }
 
     List<Hint> hints() {

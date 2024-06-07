@@ -14,16 +14,16 @@ class DomainModelDependenciesRuleTest {
     void domainModelDoesNotDependOnOutside() {
         noClasses()
                 .that()
-                .resideInAPackage("rzepiszczak.damian.tripmaker.trip.application.model..")
+                .resideInAPackage("rzepiszczak.damian.tripmaker.trip.management.application.model..")
                 .should()
                 .dependOnClassesThat()
-                .resideOutsideOfPackages("rzepiszczak.damian.tripmaker.trip.application.model..",
+                .resideOutsideOfPackages("rzepiszczak.damian.tripmaker.trip.management.application.model..",
                         "java..",
                         "lombok..",
                         "rzepiszczak.damian.tripmaker.common..",
                         "org.springframework..")
                 .check(new ClassFileImporter()
                         .withImportOption(ImportOption.Predefined.DO_NOT_INCLUDE_TESTS)
-                        .importPackages("rzepiszczak.damian.tripmaker.trip.."));
+                        .importPackages("rzepiszczak.damian.tripmaker.trip.management.application.model.."));
     }
 }

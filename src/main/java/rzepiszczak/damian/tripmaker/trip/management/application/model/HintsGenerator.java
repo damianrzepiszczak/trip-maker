@@ -1,0 +1,16 @@
+package rzepiszczak.damian.tripmaker.trip.management.application.model;
+
+import lombok.RequiredArgsConstructor;
+import rzepiszczak.damian.tripmaker.common.Clock;
+
+@RequiredArgsConstructor
+class HintsGenerator {
+
+    private static final String INITIAL_HINT_CONTENT = "New trip to %s was created. We will push new hints soon to improve your dreams";
+
+    private final Clock clock;
+
+    Hint generateInitialHint(Trip trip) {
+        return new Hint(String.format(INITIAL_HINT_CONTENT, trip.getDestination().getDestination()), clock.now());
+    }
+}

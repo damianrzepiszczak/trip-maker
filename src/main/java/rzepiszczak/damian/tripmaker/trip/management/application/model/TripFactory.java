@@ -10,10 +10,13 @@ import java.util.UUID;
 class TripFactory {
 
     private final Trips trips;
+    private final HintsGenerator hintsGenerator;
 
     Trip create(TravelerId travelerId, String destination, LocalDate from, LocalDate to) {
         if (notExistsWithSameDestination(travelerId, destination)) {
-            return new Trip(TripId.from(UUID.randomUUID()), travelerId, Destination.of(destination), TripPeriod.from(from, to));
+            Trip trip = new Trip(TripId.from(UUID.randomUUID()), travelerId, Destination.of(destination), TripPeriod.from(from, to));
+            trip.publishHint(hintsGenerator.generateInitialHint(trip));
+            return trip;
         }
         throw new DomainException("Trying to create trip with the same destination");
     }
