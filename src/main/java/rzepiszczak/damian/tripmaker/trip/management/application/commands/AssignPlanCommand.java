@@ -1,4 +1,4 @@
-package rzepiszczak.damian.tripmaker.trip.management.application.model.commands;
+package rzepiszczak.damian.tripmaker.trip.management.application.commands;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

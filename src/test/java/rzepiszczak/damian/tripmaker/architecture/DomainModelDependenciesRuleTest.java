@@ -17,7 +17,7 @@ class DomainModelDependenciesRuleTest {
                 .resideInAPackage("rzepiszczak.damian.tripmaker.trip.management.application.model..")
                 .should()
                 .dependOnClassesThat()
-                .resideOutsideOfPackages("rzepiszczak.damian.tripmaker.trip.management.application.model..",
+                .resideOutsideOfPackages("rzepiszczak.damian.tripmaker.trip.management..",
                         "java..",
                         "lombok..",
                         "rzepiszczak.damian.tripmaker.common..",

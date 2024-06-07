@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import rzepiszczak.damian.tripmaker.common.AggregateRoot;
 import rzepiszczak.damian.tripmaker.common.exception.DomainException;
-import rzepiszczak.damian.tripmaker.trip.management.application.model.commands.DayInformation;
+import rzepiszczak.damian.tripmaker.trip.management.application.commands.DayInformation;
 import rzepiszczak.damian.tripmaker.trip.management.application.model.events.*;
 
 import java.time.LocalDate;

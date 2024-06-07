@@ -6,10 +6,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import rzepiszczak.damian.tripmaker.trip.management.application.model.TravelerId;
-import rzepiszczak.damian.tripmaker.trip.management.application.model.commands.AssignPlanCommand;
+import rzepiszczak.damian.tripmaker.trip.management.application.commands.AssignPlanCommand;
 import rzepiszczak.damian.tripmaker.trip.management.application.model.TripId;
 import rzepiszczak.damian.tripmaker.trip.management.application.model.TripService;
-import rzepiszczak.damian.tripmaker.trip.management.application.model.commands.CreateNewTripCommand;
+import rzepiszczak.damian.tripmaker.trip.management.application.commands.CreateNewTripCommand;
 
 import java.util.UUID;
 

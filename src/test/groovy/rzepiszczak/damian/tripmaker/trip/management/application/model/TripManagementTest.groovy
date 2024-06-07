@@ -4,9 +4,9 @@ import rzepiszczak.damian.tripmaker.common.Clock
 import rzepiszczak.damian.tripmaker.common.MockClock
 import rzepiszczak.damian.tripmaker.common.event.DomainEventPublisher
 import rzepiszczak.damian.tripmaker.common.exception.DomainException
-import rzepiszczak.damian.tripmaker.trip.management.application.model.commands.AssignPlanCommand
-import rzepiszczak.damian.tripmaker.trip.management.application.model.commands.CreateNewTripCommand
-import rzepiszczak.damian.tripmaker.trip.management.application.model.commands.DayInformation
+import rzepiszczak.damian.tripmaker.trip.management.application.commands.AssignPlanCommand
+import rzepiszczak.damian.tripmaker.trip.management.application.commands.CreateNewTripCommand
+import rzepiszczak.damian.tripmaker.trip.management.application.commands.DayInformation
 import rzepiszczak.damian.tripmaker.trip.management.application.model.events.TimelineCreated
 import rzepiszczak.damian.tripmaker.trip.management.application.model.events.TripCreated
 import rzepiszczak.damian.tripmaker.trip.management.application.model.events.TripStarted

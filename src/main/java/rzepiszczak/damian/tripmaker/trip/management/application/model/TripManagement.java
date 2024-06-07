@@ -3,8 +3,8 @@ package rzepiszczak.damian.tripmaker.trip.management.application.model;
 import lombok.RequiredArgsConstructor;
 import rzepiszczak.damian.tripmaker.common.Clock;
 import rzepiszczak.damian.tripmaker.common.event.DomainEventPublisher;
-import rzepiszczak.damian.tripmaker.trip.management.application.model.commands.AssignPlanCommand;
-import rzepiszczak.damian.tripmaker.trip.management.application.model.commands.CreateNewTripCommand;
+import rzepiszczak.damian.tripmaker.trip.management.application.commands.AssignPlanCommand;
+import rzepiszczak.damian.tripmaker.trip.management.application.commands.CreateNewTripCommand;
 
 import java.util.Optional;
 
