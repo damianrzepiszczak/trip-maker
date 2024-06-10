@@ -12,8 +12,9 @@ import java.time.LocalDate;
 class TripConfiguration {
 
     @Bean
-    TripService tripService(Trips trips, DomainEventPublisher domainEventPublisher) {
+    TripService tripService(Trips trips, DomainEventPublisher domainEventPublisher, TripsSettings tripsSettings) {
         Clock clock = new MockClock(LocalDate.now());
-        return new TripManagement(trips, clock, new TripFactory(trips, new HintsGenerator(clock)), domainEventPublisher);
+        HintsGenerator hintsGenerator = new HintsGenerator(clock);
+        return new TripManagement(trips, clock, new TripFactory(trips, tripsSettings), domainEventPublisher, hintsGenerator);
     }
 }

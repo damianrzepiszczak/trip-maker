@@ -15,11 +15,13 @@ class TripManagement implements TripService {
     private final Clock clock;
     private final TripFactory tripFactory;
     private final DomainEventPublisher domainEventPublisher;
+    private final HintsGenerator hintsGenerator;
 
     @Override
     public TripId create(CreateNewTripCommand createNewTripCommand) {
         Trip trip = tripFactory.create(createNewTripCommand.travelerId(),
                 createNewTripCommand.destination(), createNewTripCommand.from(), createNewTripCommand.to());
+        trip.publishHint(hintsGenerator.generateInitialHint(trip));
         trips.save(trip);
         domainEventPublisher.publish(trip.domainEvents());
         return trip.getId();
@@ -47,6 +49,7 @@ class TripManagement implements TripService {
     public void finish(TripId tripId) {
         trips.findById(tripId).ifPresent(trip -> {
             trip.finish();
+            trip.publishHint(hintsGenerator.generateHintAfterTripFinishing(trip));
             domainEventPublisher.publish(trip.domainEvents());
         });
     }

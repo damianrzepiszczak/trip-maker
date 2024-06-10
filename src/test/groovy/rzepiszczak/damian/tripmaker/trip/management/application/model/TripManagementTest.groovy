@@ -23,8 +23,7 @@ class TripManagementTest extends Specification {
     private TripPersistenceConfiguration configuration = new TripPersistenceConfiguration()
     private Trips trips = configuration.tripRepository()
     private DomainEventPublisher domainEventPublisher = Mock()
-    private HintsGenerator hintsGenerator = new HintsGenerator(clock)
-    private TripService tripService = new TripManagement(trips, new MockClock(someDay), new TripFactory(trips, hintsGenerator), domainEventPublisher)
+    private TripService tripService = new TripManagement(trips, clock, new TripFactory(trips, new MockTripsSettings()), domainEventPublisher, new HintsGenerator(clock))
 
     def 'should create trip after choosing destination and period'() {
         when: 'for given destination and period create trip'
@@ -41,6 +40,18 @@ class TripManagementTest extends Specification {
         when: 'traveler creates second trip to Dubai'
             tripService.create(new CreateNewTripCommand(travelerId, "Dubai", someDay, someDay.plusDays(7)))
         then: 'cannot create with the same destination'
+            DomainException exception = thrown()
+            exception.message == "Trying to create trip with the same destination"
+    }
+
+    def 'cannot create trip if max allowed number is exceeded'() {
+        given: 'traveler creates number of trips'
+            tripService.create(new CreateNewTripCommand(travelerId, "Dubai", someDay, someDay.plusDays(2)))
+            tripService.create(new CreateNewTripCommand(travelerId, "Paris", someDay, someDay.plusDays(5)))
+            tripService.create(new CreateNewTripCommand(travelerId, "Madrid", someDay, someDay.plusDays(7)))
+        when: 'traveler is creating next trip and he exceeds number of allowed'
+            tripService.create(new CreateNewTripCommand(travelerId, "Thailand", someDay, someDay.plusDays(12)))
+        then: 'cannot create next trip'
             DomainException exception = thrown()
             exception.message == "Trying to create trip with the same destination"
     }
@@ -101,5 +112,30 @@ class TripManagementTest extends Specification {
             hints.size() == 1
           and:
             hints[0].getContent() == "New trip to Paris was created. We will push new hints soon to improve your dreams"
+    }
+
+    def 'generate hint after finishing trip'() {
+        given:
+            TravelerId travelerId = TravelerId.from(UUID.randomUUID())
+        when: 'traveler finishes trip'
+            TripId tripId = tripService.create(new CreateNewTripCommand(travelerId, "Paris", someDay, someDay.plusDays(5)))
+            Trip trip = trips.findById(tripId).get()
+            AssignPlanCommand assignPlanCommand = new AssignPlanCommand(tripId)
+            tripService.assignPlan(assignPlanCommand)
+            tripService.start(tripId)
+            tripService.finish(tripId)
+        then: 'finishing hint is generated'
+            List<Hint> hints = trip.hints()
+            hints.size() == 2
+        and:
+            hints[1].getContent() == "Your Paris trip is finished. I hope we help yours dream come true"
+    }
+
+    class MockTripsSettings implements TripsSettings {
+
+        @Override
+        int allowedNumberOfTrips() {
+            return 3
+        }
     }
 }
