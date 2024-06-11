@@ -1,9 +1,9 @@
 package rzepiszczak.damian.tripmaker.trip.management.readmodel;
 
 import lombok.RequiredArgsConstructor;
-import rzepiszczak.damian.tripmaker.trip.management.application.model.TravelerId;
-import rzepiszczak.damian.tripmaker.trip.management.application.model.Trip;
-import rzepiszczak.damian.tripmaker.trip.management.application.model.Trips;
+import rzepiszczak.damian.tripmaker.trip.management.application.domain.TravelerId;
+import rzepiszczak.damian.tripmaker.trip.management.application.domain.Trip;
+import rzepiszczak.damian.tripmaker.trip.management.application.domain.Trips;
 
 import java.util.List;
 

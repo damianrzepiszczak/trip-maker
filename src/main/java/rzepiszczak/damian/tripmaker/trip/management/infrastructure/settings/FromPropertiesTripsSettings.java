@@ -1,6 +1,6 @@
 package rzepiszczak.damian.tripmaker.trip.management.infrastructure.settings;
 
-import rzepiszczak.damian.tripmaker.trip.management.application.model.TripsSettings;
+import rzepiszczak.damian.tripmaker.trip.management.application.domain.TripsSettings;
 
 class FromPropertiesTripsSettings implements TripsSettings {
     @Override

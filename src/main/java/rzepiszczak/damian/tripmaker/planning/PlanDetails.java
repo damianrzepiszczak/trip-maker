@@ -1,7 +1,7 @@
 package rzepiszczak.damian.tripmaker.planning;
 
 import lombok.Getter;
-import rzepiszczak.damian.tripmaker.trip.management.application.model.PlanId;
+import rzepiszczak.damian.tripmaker.trip.management.application.domain.PlanId;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;

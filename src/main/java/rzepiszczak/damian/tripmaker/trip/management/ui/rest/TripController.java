@@ -4,10 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import rzepiszczak.damian.tripmaker.trip.management.application.commands.AssignPlanCommand;
 import rzepiszczak.damian.tripmaker.trip.management.application.commands.CreateNewTripCommand;
-import rzepiszczak.damian.tripmaker.trip.management.application.model.TravelerId;
-import rzepiszczak.damian.tripmaker.trip.management.application.model.Trip;
-import rzepiszczak.damian.tripmaker.trip.management.application.model.TripId;
-import rzepiszczak.damian.tripmaker.trip.management.application.model.TripService;
+import rzepiszczak.damian.tripmaker.trip.management.application.domain.TravelerId;
+import rzepiszczak.damian.tripmaker.trip.management.application.domain.Trip;
+import rzepiszczak.damian.tripmaker.trip.management.application.domain.TripId;
+import rzepiszczak.damian.tripmaker.trip.management.application.domain.TripService;
 import rzepiszczak.damian.tripmaker.trip.management.readmodel.TripsView;
 
 import java.util.List;

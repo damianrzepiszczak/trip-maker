@@ -2,8 +2,8 @@ package rzepiszczak.damian.tripmaker.trip.management.application.commands;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import rzepiszczak.damian.tripmaker.trip.management.application.model.PlanId;
-import rzepiszczak.damian.tripmaker.trip.management.application.model.TripId;
+import rzepiszczak.damian.tripmaker.trip.management.application.domain.PlanId;
+import rzepiszczak.damian.tripmaker.trip.management.application.domain.TripId;
 
 import java.time.LocalDate;
 import java.util.HashMap;
