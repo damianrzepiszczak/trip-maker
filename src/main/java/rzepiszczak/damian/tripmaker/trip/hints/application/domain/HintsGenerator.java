@@ -12,8 +12,8 @@ class HintsGenerator {
 
     private final Clock clock;
 
-    Hint generateInitialHint(Trip trip) {
-        return new Hint(String.format(INITIAL_HINT_CONTENT, trip.getDestination()), clock.now());
+    Hint generateInitialHint(String destination) {
+        return new Hint(String.format(INITIAL_HINT_CONTENT, destination), clock.now());
     }
 
     Hint generateHintAfterTripFinishing(Trip trip) {

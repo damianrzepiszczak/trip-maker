@@ -14,4 +14,5 @@ public class TripCreated implements DomainEvent {
     private final String tripId;
     private final LocalDate from;
     private final LocalDate to;
+    private final String destination;
 }

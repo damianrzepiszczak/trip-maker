@@ -6,7 +6,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 class Destination {
-    private String destination;
+    private String name;
     static Destination of(String destination) {
         return new Destination(destination);
     }

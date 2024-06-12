@@ -1,5 +1,7 @@
 package rzepiszczak.damian.tripmaker.trip.hints.application.domain;
 
+import lombok.Getter;
+import lombok.ToString;
 import rzepiszczak.damian.tripmaker.common.AggregateRoot;
 import rzepiszczak.damian.tripmaker.trip.management.application.domain.TripId;
 
@@ -7,11 +9,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class Assistance extends AggregateRoot<AssistanceId> {
+@ToString
+public class Assistant extends AggregateRoot<AssistanceId> {
 
+    @Getter
     private final TripId tripId;
 
-    Assistance(AssistanceId assistanceId, TripId tripId) {
+    Assistant(AssistanceId assistanceId, TripId tripId) {
         this.id = assistanceId;
         this.tripId = tripId;
     }
