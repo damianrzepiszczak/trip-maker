@@ -3,10 +3,9 @@ package rzepiszczak.damian.tripmaker.trip.management.application.model;
 import lombok.RequiredArgsConstructor;
 import rzepiszczak.damian.tripmaker.common.Clock;
 import rzepiszczak.damian.tripmaker.common.event.DomainEventPublisher;
+import rzepiszczak.damian.tripmaker.common.exception.DomainException;
 import rzepiszczak.damian.tripmaker.trip.management.application.commands.AssignPlanCommand;
 import rzepiszczak.damian.tripmaker.trip.management.application.commands.CreateNewTripCommand;
-
-import java.util.Optional;
 
 @RequiredArgsConstructor
 class TripManagement implements TripService {
@@ -29,28 +28,28 @@ class TripManagement implements TripService {
 
     @Override
     public void assignPlan(AssignPlanCommand command) {
-        Optional<Trip> found = trips.findById(command.getTripId());
-        found.ifPresent(trip -> {
-            trip.generateTimeline(command.getDetails());
-            domainEventPublisher.publish(trip.domainEvents());
-        });
+        Trip trip = findTrip(command.getTripId());
+        trip.generateTimeline(command.getDetails());
+        domainEventPublisher.publish(trip.domainEvents());
     }
 
     @Override
     public void start(TripId tripId) {
-        Optional<Trip> found = trips.findById(tripId);
-        found.ifPresent(trip -> {
-            trip.start(clock.now());
-            domainEventPublisher.publish(trip.domainEvents());
-        });
+        Trip trip = findTrip(tripId);
+        trip.start(clock.now());
+        domainEventPublisher.publish(trip.domainEvents());
     }
 
     @Override
     public void finish(TripId tripId) {
-        trips.findById(tripId).ifPresent(trip -> {
-            trip.finish();
-            trip.publishHint(hintsGenerator.generateHintAfterTripFinishing(trip));
-            domainEventPublisher.publish(trip.domainEvents());
-        });
+        Trip trip = findTrip(tripId);
+        trip.finish();
+        trip.publishHint(hintsGenerator.generateHintAfterTripFinishing(trip));
+        domainEventPublisher.publish(trip.domainEvents());
+    }
+
+    private Trip findTrip(TripId tripId) {
+        return trips.findById(tripId)
+                .orElseThrow(() -> new DomainException("Cannot find requested trip " + tripId));
     }
 }
