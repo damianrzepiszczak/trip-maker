@@ -9,7 +9,7 @@ import java.time.Period;
 
 @Getter
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-class TripPeriod {
+public class TripPeriod {
 
     private LocalDate from;
     private LocalDate to;

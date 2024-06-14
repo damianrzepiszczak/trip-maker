@@ -12,10 +12,10 @@ class HintsGenerator {
     private final Clock clock;
 
     Hint generateInitialHint(Trip trip) {
-        return new Hint(String.format(INITIAL_HINT_CONTENT, trip.getDestination().getDestination()), clock.now());
+        return new Hint(String.format(INITIAL_HINT_CONTENT, trip.getDestination().getName()), clock.now());
     }
 
     Hint generateHintAfterTripFinishing(Trip trip) {
-        return new Hint(String.format(LAST_TRIP_DAY_HINT_CONTENT, trip.getDestination().getDestination()), clock.now());
+        return new Hint(String.format(LAST_TRIP_DAY_HINT_CONTENT, trip.getDestination().getName()), clock.now());
     }
 }

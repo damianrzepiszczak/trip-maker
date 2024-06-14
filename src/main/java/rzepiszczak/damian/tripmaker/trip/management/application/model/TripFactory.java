@@ -21,7 +21,7 @@ class TripFactory {
 
     private boolean notExistsWithSameDestination(TravelerId travelerId, String destination) {
         return trips.findTravelerTrips(travelerId).stream()
-                .noneMatch(trip -> trip.getDestination().getDestination().equals(destination));
+                .noneMatch(trip -> trip.getDestination().getName().equals(destination));
     }
 
     private boolean isNumberOfAllowedTripsNotExceeded(TravelerId travelerId) {

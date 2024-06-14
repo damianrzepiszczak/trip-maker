@@ -2,10 +2,7 @@ package rzepiszczak.damian.tripmaker.trip.management.readmodel;
 
 import lombok.RequiredArgsConstructor;
 import rzepiszczak.damian.tripmaker.trip.management.application.model.TravelerId;
-import rzepiszczak.damian.tripmaker.trip.management.application.model.Trip;
 import rzepiszczak.damian.tripmaker.trip.management.application.model.Trips;
-
-import java.util.List;
 
 @RequiredArgsConstructor
 class TripsFinder implements TripsView {
@@ -13,7 +10,16 @@ class TripsFinder implements TripsView {
     private final Trips trips;
 
     @Override
-    public List<Trip> findTravelerTrips(TravelerId travelerId) {
-        return trips.findTravelerTrips(travelerId);
+    public TravelerTrips findTravelerTrips(TravelerId travelerId) {
+        TravelerTrips travelerTrips = new TravelerTrips();
+        trips.findTravelerTrips(travelerId).forEach(trip -> {
+            TravelerTrips.Trip travelerTrip = new TravelerTrips.Trip();
+            travelerTrip.setTripId(trip.getId().getId());
+            travelerTrip.setDestination(trip.getDestination().getName());
+            travelerTrip.setFrom(trip.getPeriod().getFrom());
+            travelerTrip.setTo(trip.getPeriod().getTo());
+            travelerTrips.add(travelerTrip);
+        });
+        return travelerTrips;
     }
 }
