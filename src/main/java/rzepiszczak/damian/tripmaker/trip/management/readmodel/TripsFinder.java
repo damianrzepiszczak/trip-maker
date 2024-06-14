@@ -11,9 +11,9 @@ class TripsFinder implements TripsView {
 
     @Override
     public TravelerTrips findTravelerTrips(TravelerId travelerId) {
-        TravelerTrips travelerTrips = new TravelerTrips();
+        var travelerTrips = new TravelerTrips();
         trips.findTravelerTrips(travelerId).forEach(trip -> {
-            TravelerTrips.Trip travelerTrip = new TravelerTrips.Trip();
+            var travelerTrip = new TravelerTrips.Trip();
             travelerTrip.setTripId(trip.getId().getId());
             travelerTrip.setDestination(trip.getDestination().getName());
             travelerTrip.setFrom(trip.getPeriod().getFrom());

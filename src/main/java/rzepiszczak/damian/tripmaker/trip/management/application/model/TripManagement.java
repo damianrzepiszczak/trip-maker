@@ -20,7 +20,7 @@ class TripManagement implements TripService {
     @Override
     @Transactional
     public TripId create(CreateNewTripCommand createNewTripCommand) {
-        Trip trip = tripFactory.create(createNewTripCommand.travelerId(),
+        var trip = tripFactory.create(createNewTripCommand.travelerId(),
                 createNewTripCommand.destination(), createNewTripCommand.from(), createNewTripCommand.to());
         trip.publishHint(hintsGenerator.generateInitialHint(trip));
         trips.save(trip);
@@ -31,7 +31,7 @@ class TripManagement implements TripService {
     @Override
     @Transactional
     public void assignPlan(AssignPlanCommand command) {
-        Trip trip = findTrip(command.getTripId());
+        var trip = findTrip(command.getTripId());
         trip.generateTimeline(command.getDetails());
         domainEventPublisher.publish(trip.domainEvents());
     }
@@ -39,7 +39,7 @@ class TripManagement implements TripService {
     @Override
     @Transactional
     public void start(TripId tripId) {
-        Trip trip = findTrip(tripId);
+        var trip = findTrip(tripId);
         trip.start(clock.now());
         domainEventPublisher.publish(trip.domainEvents());
     }
@@ -47,7 +47,7 @@ class TripManagement implements TripService {
     @Override
     @Transactional
     public void finish(TripId tripId) {
-        Trip trip = findTrip(tripId);
+        var trip = findTrip(tripId);
         trip.finish();
         trip.publishHint(hintsGenerator.generateHintAfterTripFinishing(trip));
         domainEventPublisher.publish(trip.domainEvents());

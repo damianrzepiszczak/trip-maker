@@ -28,11 +28,11 @@ public class Trip extends AggregateRoot<TripId> {
 
     Trip(TripId tripId, TravelerId travelerId, Destination destination, TripPeriod tripPeriod) {
         this.id = tripId;
-        this.destination = destination;
-        this.period = tripPeriod;
-        this.travelerId = travelerId;
         this.status = TripStatus.INCOMING;
         this.hints = new ArrayList<>();
+        setDestination(destination);
+        setTravelerId(travelerId);
+        setTripPeriod(tripPeriod);
         registerEvent(new TripCreated(id.getId(), tripPeriod.getFrom(), tripPeriod.getTo()));
     }
 
@@ -121,6 +121,21 @@ public class Trip extends AggregateRoot<TripId> {
 
     private boolean isTimelineGenerated() {
         return timeline != null;
+    }
+
+    private void setTripPeriod(TripPeriod tripPeriod) {
+        Objects.requireNonNull(tripPeriod, "trip period is required");
+        this.period = tripPeriod;
+    }
+
+    private void setTravelerId(TravelerId travelerId) {
+        Objects.requireNonNull(travelerId, "traveler id is required");
+        this.travelerId = travelerId;
+    }
+
+    private void setDestination(Destination destination) {
+        Objects.requireNonNull(destination, "trip destination is required");
+        this.destination = destination;
     }
 
     @Override

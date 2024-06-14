@@ -6,6 +6,7 @@ import lombok.Getter;
 
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.Objects;
 
 @Getter
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
@@ -15,6 +16,8 @@ public class TripPeriod {
     private LocalDate to;
 
     public static TripPeriod from(LocalDate from, LocalDate to) {
+        Objects.requireNonNull(from, "trip from date cannot be null");
+        Objects.requireNonNull(to, "trip to date cannot be null");
         if (to.isAfter(from)) {
             return new TripPeriod(from, to);
         }
