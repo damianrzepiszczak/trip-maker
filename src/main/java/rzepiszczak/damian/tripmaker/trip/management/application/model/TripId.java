@@ -15,4 +15,9 @@ public class TripId {
         Objects.requireNonNull(id, "trip id is required");
         return new TripId(id.toString());
     }
+
+    public static TripId from(String id) {
+        Objects.requireNonNull(id, "trip id is required");
+        return new TripId(id);
+    }
 }

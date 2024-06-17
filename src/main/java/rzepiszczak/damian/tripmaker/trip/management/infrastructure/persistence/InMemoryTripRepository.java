@@ -16,7 +16,7 @@ class InMemoryTripRepository implements Trips {
     @Override
     public Optional<Trip> findById(TripId tripId) {
         return trips.stream()
-                .filter(trip -> trip.getId().equals(tripId))
+                .filter(trip -> trip.getId().getId().equals(tripId.getId()))
                 .findFirst();
     }
 

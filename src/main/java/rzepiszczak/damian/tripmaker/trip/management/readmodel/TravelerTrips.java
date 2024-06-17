@@ -18,7 +18,7 @@ public class TravelerTrips {
 
     @Getter
     @Setter
-    static class Trip {
+    public static class Trip {
         private String tripId;
         private String destination;
         private LocalDate from;
