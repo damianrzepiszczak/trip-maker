@@ -21,12 +21,12 @@ class TripsController {
     private final TripService tripService;
     private final TripsView tripsView;
 
-    @GetMapping("/travelers/{travelerId}/trips")
+    @GetMapping(value = "/travelers/{travelerId}/trips", produces = "application/vnd.trips.app-v1+json")
     ResponseEntity<TravelerTrips> travelerTrips(@PathVariable String travelerId) {
         return ResponseEntity.ok(tripsView.findTravelerTrips(TravelerId.from(travelerId)));
     }
 
-    @GetMapping("/travelers/{travelerId}/trips/{tripId}")
+    @GetMapping(value = "/travelers/{travelerId}/trips/{tripId}", produces = "application/vnd.trips.app-v1+json")
     ResponseEntity<TravelerTrips.Trip> travelerTrip(@PathVariable String travelerId, @PathVariable String tripId) {
         return ResponseEntity.ok(tripsView.findByTripId(TripId.from(tripId)));
     }
