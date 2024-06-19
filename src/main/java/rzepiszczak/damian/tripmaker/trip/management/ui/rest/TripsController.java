@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +17,7 @@ import rzepiszczak.damian.tripmaker.trip.management.readmodel.TripsView;
 
 import java.net.URI;
 
+@Tag(name = "Trips", description = "Trips REST Api under development")
 @RestController
 @RequiredArgsConstructor
 class TripsController {
