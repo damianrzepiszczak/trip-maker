@@ -2,6 +2,7 @@ package rzepiszczak.damian.tripmaker.trip.management.application.model
 
 import rzepiszczak.damian.tripmaker.common.Clock
 import rzepiszczak.damian.tripmaker.common.MockClock
+import rzepiszczak.damian.tripmaker.trip.management.application.commands.AssignPlanCommand
 import rzepiszczak.damian.tripmaker.trip.management.infrastructure.persistence.TripPersistenceConfiguration
 import spock.lang.Specification
 
@@ -17,14 +18,18 @@ class HintsGenerationServiceTest extends Specification {
     private HintsGenerationService hintsGenerationService = new HintsGenerationService(new HintsGenerator(clock), trips)
 
     def 'should generate new daily hint'() {
-        given: 'Trip last couple of days'
+        given: 'trip is created'
             Trip trip = tripFactory.create(travelerId, "Paris", someDay, someDay.plusDays(5))
             trips.save(trip)
-        when: 'New day begins'
+        and: 'assign plan'
+            trip.generateTimeline(new AssignPlanCommand(trip.id).details)
+        and: 'start trip'
+            trip.start(someDay)
+        when: 'new day begins'
             hintsGenerationService.generate(someDay.plusDays(1))
-        then: 'Daily hint should be generated'
+        then: 'daily hint should be generated'
             trip.hints().size() == 1
-            trip.hints()[0].content == "Day Paris hint"
+            trip.hints()[0].content == "Daily Paris hint"
     }
 
     class MockTripsSettings implements TripsSettings {

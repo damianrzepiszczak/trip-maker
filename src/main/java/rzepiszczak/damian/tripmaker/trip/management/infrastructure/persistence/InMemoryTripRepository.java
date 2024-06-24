@@ -30,9 +30,9 @@ class InMemoryTripRepository implements Trips {
     }
 
     @Override
-    public List<Trip> findAllNotFinishedAndCancelled() {
+    public List<Trip> findAllStarted() {
         return trips.stream()
-                .filter(trip -> trip.getStatus() != TripStatus.FINISHED && trip.getStatus() != TripStatus.CANCELLED)
+                .filter(trip -> trip.getStatus() == TripStatus.STARTED)
                 .toList();
     }
 }

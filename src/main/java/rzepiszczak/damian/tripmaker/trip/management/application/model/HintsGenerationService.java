@@ -14,7 +14,7 @@ public class HintsGenerationService {
 
     @Transactional
     public void generate(LocalDate date) {
-        List<Trip> found = trips.findAllNotFinishedAndCancelled();
+        List<Trip> found = trips.findAllStarted();
         found.forEach(trip -> {
             Hint hint = hintsGenerator.generateDailyHint(trip, date);
             trip.publishHint(hint);

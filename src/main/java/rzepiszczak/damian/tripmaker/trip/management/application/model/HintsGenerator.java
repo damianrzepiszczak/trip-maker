@@ -22,6 +22,6 @@ class HintsGenerator {
     }
 
     Hint generateDailyHint(Trip trip, LocalDate date) {
-        return new Hint("Day " + trip.getDestination().getName() + " hint", date);
+        return new Hint("Daily " + trip.getDestination().getName() + " hint", date);
     }
 }
