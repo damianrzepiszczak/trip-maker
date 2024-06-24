@@ -1,9 +1,6 @@
 package rzepiszczak.damian.tripmaker.trip.management.infrastructure.persistence;
 
-import rzepiszczak.damian.tripmaker.trip.management.application.model.TravelerId;
-import rzepiszczak.damian.tripmaker.trip.management.application.model.Trip;
-import rzepiszczak.damian.tripmaker.trip.management.application.model.TripId;
-import rzepiszczak.damian.tripmaker.trip.management.application.model.Trips;
+import rzepiszczak.damian.tripmaker.trip.management.application.model.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,5 +27,12 @@ class InMemoryTripRepository implements Trips {
     @Override
     public void save(Trip trip) {
         trips.add(trip);
+    }
+
+    @Override
+    public List<Trip> findAllNotFinishedAndCancelled() {
+        return trips.stream()
+                .filter(trip -> trip.getStatus() != TripStatus.FINISHED && trip.getStatus() != TripStatus.CANCELLED)
+                .toList();
     }
 }

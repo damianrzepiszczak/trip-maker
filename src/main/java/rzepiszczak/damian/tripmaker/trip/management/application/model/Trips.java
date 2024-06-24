@@ -7,4 +7,5 @@ public interface Trips {
     Optional<Trip> findById(TripId tripId);
     List<Trip> findTravelerTrips(TravelerId travelerId);
     void save(Trip trip);
+    List<Trip> findAllNotFinishedAndCancelled();
 }

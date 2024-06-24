@@ -3,6 +3,8 @@ package rzepiszczak.damian.tripmaker.trip.management.application.model;
 import lombok.RequiredArgsConstructor;
 import rzepiszczak.damian.tripmaker.common.Clock;
 
+import java.time.LocalDate;
+
 @RequiredArgsConstructor
 class HintsGenerator {
 
@@ -17,5 +19,9 @@ class HintsGenerator {
 
     Hint generateHintAfterTripFinishing(Trip trip) {
         return new Hint(String.format(LAST_TRIP_DAY_HINT_CONTENT, trip.getDestination().getName()), clock.now());
+    }
+
+    Hint generateDailyHint(Trip trip, LocalDate date) {
+        return new Hint("Day " + trip.getDestination().getName() + " hint", date);
     }
 }

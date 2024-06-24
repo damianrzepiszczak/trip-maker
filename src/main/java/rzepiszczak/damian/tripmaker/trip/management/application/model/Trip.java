@@ -22,6 +22,7 @@ public class Trip extends AggregateRoot<TripId> {
     private Destination destination;
     @Getter
     private TripPeriod period;
+    @Getter
     private TripStatus status;
     private List<TripDay> timeline;
     private List<Hint> hints;
