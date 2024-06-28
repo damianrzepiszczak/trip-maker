@@ -34,7 +34,7 @@ public class Trip extends AggregateRoot<TripId> {
         setDestination(destination);
         setTravelerId(travelerId);
         setTripPeriod(tripPeriod);
-        registerEvent(new TripCreated(id.getId(), tripPeriod.getFrom(), tripPeriod.getTo()));
+        registerEvent(new TripCreated(id.id(), tripPeriod.from(), tripPeriod.to()));
     }
 
     void start(LocalDate startedAt) {
@@ -46,8 +46,8 @@ public class Trip extends AggregateRoot<TripId> {
     }
 
     private boolean canStart(LocalDate now) {
-        return (now.isBefore(period.getFrom()) || now.isEqual(period.getFrom()))
-                && Period.between(now, period.getFrom()).getDays() <= 1
+        return (now.isBefore(period.from()) || now.isEqual(period.from()))
+                && Period.between(now, period.from()).getDays() <= 1
                 && isTimelineGenerated();
     }
 
@@ -66,7 +66,7 @@ public class Trip extends AggregateRoot<TripId> {
         int amountOfDaysToSchedule = tripPeriod.howManyDays();
         IntStream.range(0, amountOfDaysToSchedule).forEach(dayNumber -> {
             TripDay tripDay = timeline.get(dayNumber);
-            tripDay.changeDayDate(tripPeriod.getFrom().plusDays(dayNumber));
+            tripDay.changeDayDate(tripPeriod.from().plusDays(dayNumber));
         });
     }
 

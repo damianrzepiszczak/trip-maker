@@ -55,6 +55,6 @@ class TripsController {
                 createTripRequest.getFrom(),
                 createTripRequest.getTo());
         TripId tripId = tripService.create(createNewTripCommand);
-        return ResponseEntity.created(URI.create("/travelers/" + travelerId + "/trips/" + tripId.getId())).build();
+        return ResponseEntity.created(URI.create("/travelers/" + travelerId + "/trips/" + tripId.id())).build();
     }
 }

@@ -17,10 +17,10 @@ class TripsFinder implements TripsView {
         var travelerTrips = new TravelerTrips();
         trips.findTravelerTrips(travelerId).forEach(trip -> {
             var travelerTrip = new TravelerTrips.Trip();
-            travelerTrip.setTripId(trip.getId().getId());
+            travelerTrip.setTripId(trip.getId().id());
             travelerTrip.setDestination(trip.getDestination().getName());
-            travelerTrip.setFrom(trip.getPeriod().getFrom());
-            travelerTrip.setTo(trip.getPeriod().getTo());
+            travelerTrip.setFrom(trip.getPeriod().from());
+            travelerTrip.setTo(trip.getPeriod().to());
             travelerTrips.add(travelerTrip);
         });
         return travelerTrips;
@@ -30,10 +30,10 @@ class TripsFinder implements TripsView {
     public TravelerTrips.Trip findByTripId(TripId tripId) {
         Trip trip = trips.findById(tripId).orElseThrow(() -> new DomainException("trip not found " + tripId));
         TravelerTrips.Trip travelerTrip = new TravelerTrips.Trip();
-        travelerTrip.setTripId(trip.getId().getId());
+        travelerTrip.setTripId(trip.getId().id());
         travelerTrip.setDestination(trip.getDestination().getName());
-        travelerTrip.setFrom(trip.getPeriod().getFrom());
-        travelerTrip.setTo(trip.getPeriod().getTo());
+        travelerTrip.setFrom(trip.getPeriod().from());
+        travelerTrip.setTo(trip.getPeriod().to());
         return travelerTrip;
     }
 }

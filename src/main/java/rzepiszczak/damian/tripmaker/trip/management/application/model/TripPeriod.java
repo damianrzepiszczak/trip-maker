@@ -1,19 +1,10 @@
 package rzepiszczak.damian.tripmaker.trip.management.application.model;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.Objects;
 
-@Getter
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class TripPeriod {
-
-    private LocalDate from;
-    private LocalDate to;
+public record TripPeriod(LocalDate from, LocalDate to) {
 
     public static TripPeriod from(LocalDate from, LocalDate to) {
         Objects.requireNonNull(from, "trip from date cannot be null");
