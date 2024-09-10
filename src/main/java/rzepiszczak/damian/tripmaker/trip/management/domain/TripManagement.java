@@ -1,4 +1,4 @@
-package rzepiszczak.damian.tripmaker.trip.management.application.model;
+package rzepiszczak.damian.tripmaker.trip.management.domain;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
@@ -7,9 +7,10 @@ import rzepiszczak.damian.tripmaker.common.event.DomainEventPublisher;
 import rzepiszczak.damian.tripmaker.common.exception.DomainException;
 import rzepiszczak.damian.tripmaker.trip.management.application.commands.AssignPlanCommand;
 import rzepiszczak.damian.tripmaker.trip.management.application.commands.CreateNewTripCommand;
+import rzepiszczak.damian.tripmaker.trip.management.domain.model.*;
 
 @RequiredArgsConstructor
-class TripManagement implements TripService {
+public class TripManagement implements TripService {
 
     private final Trips trips;
     private final Clock clock;
@@ -31,7 +32,7 @@ class TripManagement implements TripService {
     @Override
     @Transactional
     public void assignPlan(AssignPlanCommand command) {
-        var trip = findTrip(command.getTripId());
+        Trip trip = findTrip(command.getTripId());
         trip.generateTimeline(command.getDetails());
         domainEventPublisher.publish(trip.domainEvents());
     }

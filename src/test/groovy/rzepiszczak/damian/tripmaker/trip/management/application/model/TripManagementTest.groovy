@@ -7,9 +7,19 @@ import rzepiszczak.damian.tripmaker.common.exception.DomainException
 import rzepiszczak.damian.tripmaker.trip.management.application.commands.AssignPlanCommand
 import rzepiszczak.damian.tripmaker.trip.management.application.commands.CreateNewTripCommand
 import rzepiszczak.damian.tripmaker.trip.management.application.commands.DayInformation
-import rzepiszczak.damian.tripmaker.trip.management.application.model.events.TimelineCreated
-import rzepiszczak.damian.tripmaker.trip.management.application.model.events.TripCreated
-import rzepiszczak.damian.tripmaker.trip.management.application.model.events.TripStarted
+import rzepiszczak.damian.tripmaker.trip.management.domain.model.Hint
+import rzepiszczak.damian.tripmaker.trip.management.domain.model.HintsGenerator
+import rzepiszczak.damian.tripmaker.trip.management.domain.model.TravelerId
+import rzepiszczak.damian.tripmaker.trip.management.domain.model.Trip
+import rzepiszczak.damian.tripmaker.trip.management.domain.model.TripFactory
+import rzepiszczak.damian.tripmaker.trip.management.domain.model.TripId
+import rzepiszczak.damian.tripmaker.trip.management.domain.TripManagement
+import rzepiszczak.damian.tripmaker.trip.management.domain.TripService
+import rzepiszczak.damian.tripmaker.trip.management.domain.model.Trips
+import rzepiszczak.damian.tripmaker.trip.management.domain.model.TripsSettings
+import rzepiszczak.damian.tripmaker.trip.management.domain.model.events.TimelineCreated
+import rzepiszczak.damian.tripmaker.trip.management.domain.model.events.TripCreated
+import rzepiszczak.damian.tripmaker.trip.management.domain.model.events.TripStarted
 import rzepiszczak.damian.tripmaker.trip.management.infrastructure.persistence.TripPersistenceConfiguration
 import spock.lang.Specification
 
@@ -67,7 +77,7 @@ class TripManagementTest extends Specification {
 
     def 'can start trip after plan assignment'() {
         given: 'traveler wants to create trip based on plan'
-            TripId tripId = tripService.create(new CreateNewTripCommand(travelerId, "Madrid", someDay, someDay.plusDays(5)))
+        TripId tripId = tripService.create(new CreateNewTripCommand(travelerId, "Madrid", someDay, someDay.plusDays(5)))
         when: 'create new timeline based on plan'
             tripService.assignPlan(new AssignPlanCommand(tripId))
             tripService.start(tripId)

@@ -1,7 +1,7 @@
 package rzepiszczak.damian.tripmaker.trip.management.readmodel;
 
-import rzepiszczak.damian.tripmaker.trip.management.application.model.TravelerId;
-import rzepiszczak.damian.tripmaker.trip.management.application.model.TripId;
+import rzepiszczak.damian.tripmaker.trip.management.domain.model.TravelerId;
+import rzepiszczak.damian.tripmaker.trip.management.domain.model.TripId;
 
 public interface TripsView {
     TravelerTrips findTravelerTrips(TravelerId travelerId);

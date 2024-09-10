@@ -1,6 +1,6 @@
 package rzepiszczak.damian.tripmaker.trip.management.infrastructure.persistence;
 
-import rzepiszczak.damian.tripmaker.trip.management.application.model.*;
+import rzepiszczak.damian.tripmaker.trip.management.domain.model.*;
 
 import java.util.ArrayList;
 import java.util.List;

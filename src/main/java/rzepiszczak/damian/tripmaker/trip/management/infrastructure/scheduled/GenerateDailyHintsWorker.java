@@ -4,7 +4,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import rzepiszczak.damian.tripmaker.common.Clock;
-import rzepiszczak.damian.tripmaker.trip.management.application.model.HintsGenerationService;
+import rzepiszczak.damian.tripmaker.trip.management.domain.model.HintsGenerationService;
 
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
 class GenerateDailyHintsWorker {

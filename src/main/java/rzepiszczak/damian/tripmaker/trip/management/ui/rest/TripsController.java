@@ -9,9 +9,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import rzepiszczak.damian.tripmaker.trip.management.application.commands.CreateNewTripCommand;
-import rzepiszczak.damian.tripmaker.trip.management.application.model.TravelerId;
-import rzepiszczak.damian.tripmaker.trip.management.application.model.TripId;
-import rzepiszczak.damian.tripmaker.trip.management.application.model.TripService;
+import rzepiszczak.damian.tripmaker.trip.management.domain.model.TravelerId;
+import rzepiszczak.damian.tripmaker.trip.management.domain.model.TripId;
+import rzepiszczak.damian.tripmaker.trip.management.domain.TripService;
 import rzepiszczak.damian.tripmaker.trip.management.readmodel.TravelerTrips;
 import rzepiszczak.damian.tripmaker.trip.management.readmodel.TripsView;
 

@@ -1,6 +1,6 @@
 package rzepiszczak.damian.tripmaker.trip.management.application.commands;
 
-import rzepiszczak.damian.tripmaker.trip.management.application.model.TravelerId;
+import rzepiszczak.damian.tripmaker.trip.management.domain.model.TravelerId;
 
 import java.time.LocalDate;
 

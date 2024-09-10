@@ -1,4 +1,4 @@
-package rzepiszczak.damian.tripmaker.trip.management.application.model;
+package rzepiszczak.damian.tripmaker.trip.management.domain.model;
 
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 import rzepiszczak.damian.tripmaker.common.AggregateRoot;
 import rzepiszczak.damian.tripmaker.common.exception.DomainException;
 import rzepiszczak.damian.tripmaker.trip.management.application.commands.DayInformation;
-import rzepiszczak.damian.tripmaker.trip.management.application.model.events.*;
+import rzepiszczak.damian.tripmaker.trip.management.domain.model.events.*;
 
 import java.time.LocalDate;
 import java.time.Period;
@@ -27,7 +27,7 @@ public class Trip extends AggregateRoot<TripId> {
     private List<TripDay> timeline;
     private List<Hint> hints;
 
-    Trip(TripId tripId, TravelerId travelerId, Destination destination, TripPeriod tripPeriod) {
+    public Trip(TripId tripId, TravelerId travelerId, Destination destination, TripPeriod tripPeriod) {
         this.id = tripId;
         this.status = TripStatus.INCOMING;
         this.hints = new ArrayList<>();
@@ -37,7 +37,7 @@ public class Trip extends AggregateRoot<TripId> {
         registerEvent(new TripCreated(id.id(), tripPeriod.from(), tripPeriod.to()));
     }
 
-    void start(LocalDate startedAt) {
+    public void start(LocalDate startedAt) {
         if (!canStart(startedAt)) {
             throw new DomainException("Cannot start trip, assign plan or check possible start date");
         }
@@ -51,7 +51,7 @@ public class Trip extends AggregateRoot<TripId> {
                 && isTimelineGenerated();
     }
 
-    void reschedule(TripPeriod newTripPeriod) {
+    public void reschedule(TripPeriod newTripPeriod) {
         if (status != TripStatus.INCOMING || newTripPeriod.howManyDays() != period.howManyDays()) {
             throw new DomainException("New Period has different amount of days");
         }
@@ -70,7 +70,7 @@ public class Trip extends AggregateRoot<TripId> {
         });
     }
 
-    void finish() {
+    public void finish() {
         if (status != TripStatus.STARTED) {
             throw new DomainException("Cannot finish not started trip");
         }
@@ -78,7 +78,7 @@ public class Trip extends AggregateRoot<TripId> {
         registerEvent(new TripFinished(id));
     }
 
-    void cancel() {
+    public void cancel() {
         if (status == TripStatus.STARTED) {
             throw new DomainException("Cannot cancel started trip");
         }
@@ -86,7 +86,7 @@ public class Trip extends AggregateRoot<TripId> {
         registerEvent(new TripCanceled(id));
     }
 
-    void generateTimeline(Map<LocalDate, DayInformation> details) {
+    public void generateTimeline(Map<LocalDate, DayInformation> details) {
         timeline = new ArrayList<>();
         details.forEach((day, information) -> timeline.add(new TripDay(day, information.getNote(), information.getAttractions())));
         registerEvent(new TimelineCreated(id));
@@ -105,11 +105,11 @@ public class Trip extends AggregateRoot<TripId> {
         tripDay.newDatAttraction(attraction);
     }
 
-    void publishHint(Hint hint) {
+    public void publishHint(Hint hint) {
         hints.add(hint);
     }
 
-    List<Hint> hints() {
+    public List<Hint> hints() {
         return Collections.unmodifiableList(hints);
     }
 

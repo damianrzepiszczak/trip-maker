@@ -1,4 +1,4 @@
-package rzepiszczak.damian.tripmaker.trip.management.application.model;
+package rzepiszczak.damian.tripmaker.trip.management.domain.model;
 
 import lombok.RequiredArgsConstructor;
 import rzepiszczak.damian.tripmaker.common.Clock;
@@ -6,6 +6,7 @@ import rzepiszczak.damian.tripmaker.common.Clock;
 import java.time.LocalDate;
 
 @RequiredArgsConstructor
+public
 class HintsGenerator {
 
     private static final String INITIAL_HINT_CONTENT = "New trip to %s was created. We will push new hints soon to improve your dreams";
@@ -13,11 +14,11 @@ class HintsGenerator {
 
     private final Clock clock;
 
-    Hint generateInitialHint(Trip trip) {
+    public Hint generateInitialHint(Trip trip) {
         return new Hint(String.format(INITIAL_HINT_CONTENT, trip.getDestination().getName()), clock.now());
     }
 
-    Hint generateHintAfterTripFinishing(Trip trip) {
+    public Hint generateHintAfterTripFinishing(Trip trip) {
         return new Hint(String.format(LAST_TRIP_DAY_HINT_CONTENT, trip.getDestination().getName()), clock.now());
     }
 

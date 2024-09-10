@@ -1,4 +1,4 @@
-package rzepiszczak.damian.tripmaker.trip.management.application.model;
+package rzepiszczak.damian.tripmaker.trip.management.domain.model;
 
 import lombok.RequiredArgsConstructor;
 import rzepiszczak.damian.tripmaker.common.exception.DomainException;
@@ -7,12 +7,12 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 @RequiredArgsConstructor
-class TripFactory {
+public class TripFactory {
 
     private final Trips trips;
     private final TripsSettings tripsSettings;
 
-    Trip create(TravelerId travelerId, String destination, LocalDate from, LocalDate to) {
+    public Trip create(TravelerId travelerId, String destination, LocalDate from, LocalDate to) {
         if (notExistsWithSameDestination(travelerId, destination) && isNumberOfAllowedTripsNotExceeded(travelerId)) {
             return new Trip(TripId.from(UUID.randomUUID()), travelerId, Destination.of(destination), TripPeriod.from(from, to));
         }

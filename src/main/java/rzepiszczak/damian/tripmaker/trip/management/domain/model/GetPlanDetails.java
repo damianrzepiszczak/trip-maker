@@ -1,4 +1,4 @@
-package rzepiszczak.damian.tripmaker.trip.management.application.model;
+package rzepiszczak.damian.tripmaker.trip.management.domain.model;
 
 import rzepiszczak.damian.tripmaker.trip.management.application.commands.DayInformation;
 

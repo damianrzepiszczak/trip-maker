@@ -1,4 +1,4 @@
-package rzepiszczak.damian.tripmaker.trip.management.application.model;
+package rzepiszczak.damian.tripmaker.trip.management.domain.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,7 +9,7 @@ import java.util.Objects;
 @AllArgsConstructor
 public class Destination {
     private String name;
-    static Destination of(String destination) {
+    public static Destination of(String destination) {
         Objects.requireNonNull(destination, "Destination cannot be null");
         return new Destination(destination);
     }

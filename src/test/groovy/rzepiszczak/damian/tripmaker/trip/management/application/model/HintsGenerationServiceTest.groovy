@@ -5,6 +5,16 @@ import rzepiszczak.damian.tripmaker.common.MockClock
 import rzepiszczak.damian.tripmaker.common.event.DomainEventPublisher
 import rzepiszczak.damian.tripmaker.trip.management.application.commands.AssignPlanCommand
 import rzepiszczak.damian.tripmaker.trip.management.application.commands.CreateNewTripCommand
+import rzepiszczak.damian.tripmaker.trip.management.domain.model.HintsGenerationService
+import rzepiszczak.damian.tripmaker.trip.management.domain.model.HintsGenerator
+import rzepiszczak.damian.tripmaker.trip.management.domain.model.TravelerId
+import rzepiszczak.damian.tripmaker.trip.management.domain.model.Trip
+import rzepiszczak.damian.tripmaker.trip.management.domain.model.TripFactory
+import rzepiszczak.damian.tripmaker.trip.management.domain.model.TripId
+import rzepiszczak.damian.tripmaker.trip.management.domain.TripManagement
+import rzepiszczak.damian.tripmaker.trip.management.domain.TripService
+import rzepiszczak.damian.tripmaker.trip.management.domain.model.Trips
+import rzepiszczak.damian.tripmaker.trip.management.domain.model.TripsSettings
 import rzepiszczak.damian.tripmaker.trip.management.infrastructure.persistence.TripPersistenceConfiguration
 import spock.lang.Specification
 
@@ -23,7 +33,7 @@ class HintsGenerationServiceTest extends Specification {
 
     def 'should generate new daily hint'() {
         given: 'trip is created'
-            TripId tripId = tripService.create(new CreateNewTripCommand(travelerId, "Paris", someDay, someDay.plusDays(5)))
+        TripId tripId = tripService.create(new CreateNewTripCommand(travelerId, "Paris", someDay, someDay.plusDays(5)))
         and: 'assign plan'
             tripService.assignPlan(new AssignPlanCommand(tripId))
         and: 'start trip'
@@ -31,7 +41,7 @@ class HintsGenerationServiceTest extends Specification {
         when: 'new day begins'
             hintsGenerationService.generate(someDay.plusDays(1))
         then: 'daily hint should be generated'
-            Trip trip = trips.findById(tripId).get()
+        Trip trip = trips.findById(tripId).get()
             trip.hints().size() == 2
             trip.hints()[1].content == "Daily Paris hint"
     }

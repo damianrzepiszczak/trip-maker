@@ -2,10 +2,10 @@ package rzepiszczak.damian.tripmaker.trip.management.readmodel;
 
 import lombok.RequiredArgsConstructor;
 import rzepiszczak.damian.tripmaker.common.exception.DomainException;
-import rzepiszczak.damian.tripmaker.trip.management.application.model.TravelerId;
-import rzepiszczak.damian.tripmaker.trip.management.application.model.Trip;
-import rzepiszczak.damian.tripmaker.trip.management.application.model.TripId;
-import rzepiszczak.damian.tripmaker.trip.management.application.model.Trips;
+import rzepiszczak.damian.tripmaker.trip.management.domain.model.TravelerId;
+import rzepiszczak.damian.tripmaker.trip.management.domain.model.Trip;
+import rzepiszczak.damian.tripmaker.trip.management.domain.model.TripId;
+import rzepiszczak.damian.tripmaker.trip.management.domain.model.Trips;
 
 @RequiredArgsConstructor
 class TripsFinder implements TripsView {

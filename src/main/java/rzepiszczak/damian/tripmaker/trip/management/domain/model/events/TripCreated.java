@@ -1,4 +1,4 @@
-package rzepiszczak.damian.tripmaker.trip.management.application.model.events;
+package rzepiszczak.damian.tripmaker.trip.management.domain.model.events;
 
 import rzepiszczak.damian.tripmaker.common.event.DomainEvent;
 

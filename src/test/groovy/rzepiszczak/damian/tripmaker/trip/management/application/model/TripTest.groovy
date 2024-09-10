@@ -1,12 +1,17 @@
 package rzepiszczak.damian.tripmaker.trip.management.application.model
 
 import rzepiszczak.damian.tripmaker.common.exception.DomainException
-import rzepiszczak.damian.tripmaker.trip.management.application.model.events.TimelineCreated
-import rzepiszczak.damian.tripmaker.trip.management.application.model.events.TripCanceled
-import rzepiszczak.damian.tripmaker.trip.management.application.model.events.TripCreated
-import rzepiszczak.damian.tripmaker.trip.management.application.model.events.TripFinished
-import rzepiszczak.damian.tripmaker.trip.management.application.model.events.TripStarted
-import rzepiszczak.damian.tripmaker.trip.management.application.model.events.TripTimelineRescheduled
+import rzepiszczak.damian.tripmaker.trip.management.domain.model.Destination
+import rzepiszczak.damian.tripmaker.trip.management.domain.model.TravelerId
+import rzepiszczak.damian.tripmaker.trip.management.domain.model.Trip
+import rzepiszczak.damian.tripmaker.trip.management.domain.model.TripId
+import rzepiszczak.damian.tripmaker.trip.management.domain.model.TripPeriod
+import rzepiszczak.damian.tripmaker.trip.management.domain.model.events.TimelineCreated
+import rzepiszczak.damian.tripmaker.trip.management.domain.model.events.TripCanceled
+import rzepiszczak.damian.tripmaker.trip.management.domain.model.events.TripCreated
+import rzepiszczak.damian.tripmaker.trip.management.domain.model.events.TripFinished
+import rzepiszczak.damian.tripmaker.trip.management.domain.model.events.TripStarted
+import rzepiszczak.damian.tripmaker.trip.management.domain.model.events.TripTimelineRescheduled
 import spock.lang.Specification
 import spock.lang.Subject
 
