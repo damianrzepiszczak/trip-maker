@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import rzepiszczak.damian.tripmaker.common.Clock;
 import rzepiszczak.damian.tripmaker.common.MockClock;
 import rzepiszczak.damian.tripmaker.common.event.DomainEventPublisher;
-import rzepiszczak.damian.tripmaker.trip.management.domain.TripManagement;
+import rzepiszczak.damian.tripmaker.trip.management.application.TripManagement;
 import rzepiszczak.damian.tripmaker.trip.management.domain.TripService;
 
 import java.time.LocalDate;

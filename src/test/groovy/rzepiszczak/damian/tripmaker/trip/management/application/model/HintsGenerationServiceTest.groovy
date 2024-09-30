@@ -11,7 +11,7 @@ import rzepiszczak.damian.tripmaker.trip.management.domain.model.TravelerId
 import rzepiszczak.damian.tripmaker.trip.management.domain.model.Trip
 import rzepiszczak.damian.tripmaker.trip.management.domain.model.TripFactory
 import rzepiszczak.damian.tripmaker.trip.management.domain.model.TripId
-import rzepiszczak.damian.tripmaker.trip.management.domain.TripManagement
+import rzepiszczak.damian.tripmaker.trip.management.application.TripManagement
 import rzepiszczak.damian.tripmaker.trip.management.domain.TripService
 import rzepiszczak.damian.tripmaker.trip.management.domain.model.Trips
 import rzepiszczak.damian.tripmaker.trip.management.domain.model.TripsSettings

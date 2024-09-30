@@ -1,4 +1,4 @@
-package rzepiszczak.damian.tripmaker.trip.management.domain;
+package rzepiszczak.damian.tripmaker.trip.management.application;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
@@ -7,6 +7,7 @@ import rzepiszczak.damian.tripmaker.common.event.DomainEventPublisher;
 import rzepiszczak.damian.tripmaker.common.exception.DomainException;
 import rzepiszczak.damian.tripmaker.trip.management.application.commands.AssignPlanCommand;
 import rzepiszczak.damian.tripmaker.trip.management.application.commands.CreateNewTripCommand;
+import rzepiszczak.damian.tripmaker.trip.management.domain.TripService;
 import rzepiszczak.damian.tripmaker.trip.management.domain.model.*;
 
 @RequiredArgsConstructor
