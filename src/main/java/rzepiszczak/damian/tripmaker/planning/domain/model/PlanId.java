@@ -1,4 +1,4 @@
-package rzepiszczak.damian.tripmaker.planning.model;
+package rzepiszczak.damian.tripmaker.planning.domain.model;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
