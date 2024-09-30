@@ -1,4 +1,4 @@
-package rzepiszczak.damian.tripmaker.trip.management.application.model
+package rzepiszczak.damian.tripmaker.trip.management.application
 
 import rzepiszczak.damian.tripmaker.common.Clock
 import rzepiszczak.damian.tripmaker.common.MockClock
@@ -7,16 +7,8 @@ import rzepiszczak.damian.tripmaker.common.exception.DomainException
 import rzepiszczak.damian.tripmaker.trip.management.application.commands.AssignPlanCommand
 import rzepiszczak.damian.tripmaker.trip.management.application.commands.CreateNewTripCommand
 import rzepiszczak.damian.tripmaker.trip.management.application.commands.DayInformation
-import rzepiszczak.damian.tripmaker.trip.management.domain.model.Hint
-import rzepiszczak.damian.tripmaker.trip.management.domain.model.HintsGenerator
-import rzepiszczak.damian.tripmaker.trip.management.domain.model.TravelerId
-import rzepiszczak.damian.tripmaker.trip.management.domain.model.Trip
-import rzepiszczak.damian.tripmaker.trip.management.domain.model.TripFactory
-import rzepiszczak.damian.tripmaker.trip.management.domain.model.TripId
-import rzepiszczak.damian.tripmaker.trip.management.application.TripManagement
 import rzepiszczak.damian.tripmaker.trip.management.domain.TripService
-import rzepiszczak.damian.tripmaker.trip.management.domain.model.Trips
-import rzepiszczak.damian.tripmaker.trip.management.domain.model.TripsSettings
+import rzepiszczak.damian.tripmaker.trip.management.domain.model.*
 import rzepiszczak.damian.tripmaker.trip.management.domain.model.events.TimelineCreated
 import rzepiszczak.damian.tripmaker.trip.management.domain.model.events.TripCreated
 import rzepiszczak.damian.tripmaker.trip.management.domain.model.events.TripStarted
