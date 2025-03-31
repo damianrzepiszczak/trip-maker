@@ -10,7 +10,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @ToString
-class CreateTripRequest {
+public class CreateTripRequest {
     private String travelerId;
     private String destination;
     @JsonFormat(pattern="yyyy-MM-dd")

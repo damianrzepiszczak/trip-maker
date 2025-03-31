@@ -1,6 +1,5 @@
 package rzepiszczak.damian.tripmaker.planning.domain.model
 
-
 import spock.lang.Specification
 
 class PlanManagementTest extends Specification {
