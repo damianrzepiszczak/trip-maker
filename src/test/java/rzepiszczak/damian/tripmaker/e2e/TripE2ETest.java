@@ -7,7 +7,7 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import rzepiszczak.damian.tripmaker.trip.domain.advisor.Advisors;
 import rzepiszczak.damian.tripmaker.trip.domain.management.model.TravelerId;
 import rzepiszczak.damian.tripmaker.trip.domain.management.model.Trips;
-import rzepiszczak.damian.tripmaker.trip.ui.rest.CreateTripRequest;
+import rzepiszczak.damian.tripmaker.trip.api.rest.CreateTripRequest;
 
 import java.time.LocalDate;
 

@@ -1,4 +1,4 @@
-package rzepiszczak.damian.tripmaker.trip.ui.rest;
+package rzepiszczak.damian.tripmaker.trip.api.rest;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;

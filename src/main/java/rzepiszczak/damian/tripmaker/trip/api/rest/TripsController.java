@@ -1,4 +1,4 @@
-package rzepiszczak.damian.tripmaker.trip.ui.rest;
+package rzepiszczak.damian.tripmaker.trip.api.rest;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
