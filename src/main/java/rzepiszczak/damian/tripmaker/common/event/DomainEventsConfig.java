@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 public class DomainEventsConfig {
 
     @Bean
-    DomainEventPublisher domainEventPublisher(ApplicationEventPublisher applicationEventPublisher) {
+    public DomainEventPublisher domainEventPublisher(ApplicationEventPublisher applicationEventPublisher) {
         return new SimpleForwardDomainEventPublisher(applicationEventPublisher);
     }
 }

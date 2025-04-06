@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import rzepiszczak.damian.tripmaker.trip.application.management.commands.CreateNewTripCommand;
@@ -17,6 +18,7 @@ import rzepiszczak.damian.tripmaker.trip.readmodel.TripsView;
 
 import java.net.URI;
 
+@Slf4j
 @Tag(name = "Trips", description = "Trips REST Api under development")
 @RestController
 @RequiredArgsConstructor
@@ -49,6 +51,7 @@ class TripsController {
     })
     @PostMapping("/travelers/{travelerId}/trips")
     ResponseEntity<Void> createTrip(@PathVariable String travelerId, @RequestBody CreateTripRequest createTripRequest) {
+        log.info("Creating new trip for travelerId: {}", travelerId);
         CreateNewTripCommand createNewTripCommand = new CreateNewTripCommand(
                 TravelerId.from(createTripRequest.getTravelerId()),
                 createTripRequest.getDestination(),
